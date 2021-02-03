@@ -6,11 +6,12 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:35:02 by atweek            #+#    #+#             */
-/*   Updated: 2021/01/06 17:54:28 by atweek           ###   ########.fr       */
+/*   Updated: 2021/02/03 21:26:03 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#define BUFFER_SIZE 10
 
 static int	clean_before_out(char *s1, char *s2, int ret)
 {
