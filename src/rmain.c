@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub.h                                              :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/03 19:32:06 by atweek            #+#    #+#             */
-/*   Updated: 2021/02/16 22:36:48 by atweek           ###   ########.fr       */
+/*   Created: 2021/02/03 16:27:13 by atweek            #+#    #+#             */
+/*   Updated: 2021/02/03 18:48:28 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include <string.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdint.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include "../gnl/get_next_line.h"
+#include <mlx.h>
 
-// typedef struct		s_list
-// {
-// 	void			*content;
-// 	struct s_list	*next;
-// }					t_list;
-
-typedef struct		s_cub
+int     main(void)
 {
 	void	*mlx;
 	void	*mlx_win;
-}					t_cub;
+	int		x;
+	int		y;
 
-int		write_square(int x, int y,t_cub *st_cub,int color);
-
-
-#endif
+	x = 100;
+	y = 100;
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+	while (y ++ < 200)
+	{
+		x = 100;
+		while (x ++ < 200)
+			mlx_pixel_put(mlx,mlx_win,x,y,0x0000FF00);
+	}
+	mlx_loop(mlx);
+	return (0);
+}
