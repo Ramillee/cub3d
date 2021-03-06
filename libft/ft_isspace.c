@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parcer.c                                           :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/03 19:01:39 by atweek            #+#    #+#             */
-/*   Updated: 2021/02/03 21:27:39 by atweek           ###   ########.fr       */
+/*   Created: 2020/11/15 18:59:44 by atweek            #+#    #+#             */
+/*   Updated: 2021/03/06 21:01:00 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
-#include "stdio.h"
-int main(int argc, char *argv[])
+#include "libft.h"
+
+int	ft_isspace(int ch)
 {
-	int fd;
-	char *line;
-	t_list cub_list;
-	fd = open("map", O_RDONLY);
-	while (get_next_line(fd,&line) == 1)
-	{
-		printf("%s\n",line);
-		line = NULL;
-		free(line);
-	}
-	printf("%s\n",line);
+	if (((ch >= 9) && (ch <= 13)) || (ch == 32))
+		return (1);
+	return (0);
 }

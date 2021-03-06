@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 13:10:39 by ramil             #+#    #+#             */
-/*   Updated: 2020/11/15 19:01:33 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/06 21:01:12 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdint.h>
+# include <fcntl.h>
 
 typedef struct		s_list
 {
@@ -58,7 +59,7 @@ int					ft_isdigit(int c);
 int					ft_isprint(int c);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
-int					ft_isspace_bonus(int ch);
+int					ft_isspace(int ch);
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);
 int					ft_lstsize(t_list *lst);
@@ -70,5 +71,9 @@ t_list				*ft_lstlast(t_list *lst);
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 									void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
+char				*gnl_strjoin(char *s1, char const *s2);
+size_t				gnl_ft_strlen(const char *str);
+char				*gnl_substr(char *s, unsigned int start, size_t len, int flag);
+int					get_next_line(int fd, char **line);
 
 #endif
