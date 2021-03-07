@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 23:43:47 by ramil             #+#    #+#             */
-/*   Updated: 2020/11/21 16:10:01 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/07 17:30:59 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	move(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0' && ft_isspace_bonus((int)str[i]))
+	while (str[i] != '\0' && ft_isspace((int)str[i]))
 		i++;
 	return (i);
 }

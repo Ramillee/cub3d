@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 13:10:39 by ramil             #+#    #+#             */
-/*   Updated: 2021/03/06 21:01:12 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/07 19:59:20 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 char				*gnl_strjoin(char *s1, char const *s2);
 size_t				gnl_ft_strlen(const char *str);
-char				*gnl_substr(char *s, unsigned int start, size_t len, int flag);
+char				*gnl_substr(char *s, unsigned int start,
+					size_t len, int flag);
 int					get_next_line(int fd, char **line);
 
 #endif

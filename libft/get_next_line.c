@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:35:02 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/06 20:44:54 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/07 19:58:12 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static int	read_buf(int fd, char **str, char **line)
 	if ((rs == -1) || (rs == 0))
 		return (clean_before_out(NULL, str_read, rs));
 	*line = gnl_substr(*str, 0, index - 1, 0);
-	*str = gnl_substr(*str, index, gnl_ft_strlen(*str) - gnl_ft_strlen(*line), 1);
+	*str = gnl_substr(*str, index, gnl_ft_strlen(*str) - gnl_ft_strlen(*line),
+			1);
 	return (clean_before_out(str_read, NULL, rs));
 }
 

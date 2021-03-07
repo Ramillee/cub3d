@@ -6,7 +6,7 @@
 #    By: atweek <atweek@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/29 22:32:18 by atweek            #+#    #+#              #
-#    Updated: 2021/03/06 21:00:42 by atweek           ###   ########.fr        #
+#    Updated: 2021/03/07 18:41:59 by atweek           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,8 @@ ft_tolower.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
 ft_strtrim.c ft_itoa.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 ft_putnbr_fd.c ft_strmapi.c ft_split.c ft_isspace.c \
 get_next_line.c get_next_line_utils.c \
-
-SRCBONUS = ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
-ft_lstiter.c ft_lstnew.c ft_lstadd_front.c ft_lstclear.c ft_lstmap.c 
+ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
+ft_lstiter.c ft_lstnew.c ft_lstadd_front.c ft_lstclear.c ft_lstmap.c \
 
 OBJS = ${SRC:.c=.o}
 
