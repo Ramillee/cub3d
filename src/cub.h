@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/07 19:10:07 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/09 15:22:22 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct	s_win
 	int			line_l;
 	int			bpp;
 	int			en;
-}				  t_win;
+}				t_win;
 
 
 int parcer(char *argv,char ***map);
