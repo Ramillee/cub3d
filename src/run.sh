@@ -1,5 +1,5 @@
 #!/bin/bash
 
-gcc -o cub3D -g -Wall -Wextra -Werror *.c ../libft/*.c libmlx.dylib -framework OpenGL -framework Appkit
+gcc -g main.c parcer.c ../libft/*.c  libmlx.dylib -framework OpenGL -framework Appkit && ./a.out map
 
 echo "процесс запущен

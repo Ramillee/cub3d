@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/11 18:08:46 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/11 19:55:07 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,21 @@ void paint_square(t_win *data,int x, int y, int color)
 	}
 }
 
-void find_layer(t_plr *pl_st, t_win *mlx_st,float x ,float y)
+void find_player(t_plr *pl_st, t_win *mlx_st,float x ,float y)
 {
 	pl_st->x = x;
 	pl_st->y = y;
+	//--------------
+	printf("%s%f\n","x: ",x);
+	printf("%s%f\n","y: ",y);
+	//--------------
 	pl_st->dir = 0;
 	pl_st->start = 0;
 	pl_st->end = 0;
 	paint_square(mlx_st, x, y, BLUE);
 }
 
-void paint_map(t_plr *pl_st, t_win  *mlx_st, char **map)
+void paint_map(t_plr *pl_st, t_win  *mlx_st, char **map, t_all *all_st)
 {
 	float y;
 	float x;
@@ -67,7 +71,7 @@ void paint_map(t_plr *pl_st, t_win  *mlx_st, char **map)
 				paint_square(mlx_st, x, y, RED);
 			else if (map[j][i]  == 'N')
 			{
-				find_layer(pl_st, mlx_st, x , y);
+				find_player(pl_st, mlx_st, x , y);
 			}
 			else
 				paint_square(mlx_st, x, y, GREEN);
@@ -82,13 +86,14 @@ void paint_map(t_plr *pl_st, t_win  *mlx_st, char **map)
 }
 
 
-void fill_struct(t_win  *mlx_st)
+void fill_struct(t_win  *mlx_st, t_all *all_st)
 {
 	mlx_st->mlx = mlx_init();
 	mlx_st->win = mlx_new_window(mlx_st->mlx,1920,1080,"Cub3D");
 	mlx_st->img = mlx_new_image(mlx_st->mlx, 1920, 1080);
     mlx_st->addr = mlx_get_data_addr(mlx_st->img, &mlx_st->bpp, &mlx_st->line_l,
 	&mlx_st->en);
+	all_st->win = mlx_st;
 }
 
 int main(int argc, char **argv)
@@ -98,20 +103,22 @@ int main(int argc, char **argv)
 	(void) argc;
 	t_win  mlx_st;
 	t_plr pl_st;
-	fill_struct(&mlx_st);
+	t_all all_st;
+	fill_struct(&mlx_st, &all_st);
 	
 	if (parcer(argv[1], &map) == -1)
 	{
 		ft_putstr_fd("error",1);
 		exit(0);
 	}
-	paint_map(&pl_st,&mlx_st,map);
-	
-	//----------------------------------------------------------------
-	printf("%s\n",map[0]);
-	printf("%s\n",map[1]);
-	printf("%s\n",map[2]);
-	//----------------------------------------------------------------
+	all_st.map = map;
+	paint_map(&pl_st,&mlx_st,map, &all_st);
+	mlx_hook(&mlx_st,2 , (1L<<0));
+	// //----------------------------------------------------------------
+	// printf("%s\n",map[0]);
+	// printf("%s\n",map[1]);
+	// printf("%s\n",map[2]);
+	// //----------------------------------------------------------------
 	mlx_put_image_to_window(mlx_st.mlx, mlx_st.win, mlx_st.img, 0, 0);
 	mlx_loop(mlx_st.mlx);
 	return (0);

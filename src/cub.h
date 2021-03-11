@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/11 15:32:13 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/11 19:47:44 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ typedef struct	s_plr
 	float		start;
 	float		end;
 }				  t_plr;
+
+typedef struct	s_all
+{
+	t_win		*win;
+	t_plr		*plr;
+	char		**map;
+}				  t_all;
 
 int parcer(char *argv,char ***map);
 
