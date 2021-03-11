@@ -6,13 +6,13 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/09 19:04:46 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/11 18:08:46 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 #include <stdio.h>
-#define SCALE 1
+#define SCALE 32
 
 void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
 {
@@ -22,44 +22,63 @@ void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-
-void paint_map(t_win  *mlx_st, char **map)
+void paint_square(t_win *data,int x, int y, int color)
 {
-	int y;
-	int x;
+	int start_x;
+	int start_y;
+
+	start_y = y;
+	start_x = x;
+	while (y++ < SCALE + start_y)
+	{
+		x = start_x;
+		while (x++ < SCALE + start_x)
+			my_mlx_pixel_put(data, x, y, color);
+	}
+}
+
+void find_layer(t_plr *pl_st, t_win *mlx_st,float x ,float y)
+{
+	pl_st->x = x;
+	pl_st->y = y;
+	pl_st->dir = 0;
+	pl_st->start = 0;
+	pl_st->end = 0;
+	paint_square(mlx_st, x, y, BLUE);
+}
+
+void paint_map(t_plr *pl_st, t_win  *mlx_st, char **map)
+{
+	float y;
+	float x;
 	int i;
 	int j;
-	int scale;
 
-	scale = SCALE;
 	y = 0;
 	x = 0;
 	i = 0;
 	j = 0;
 	while (map[j])
 	{
-		while (*map[i] )
+		x = 0;
+		while (map[j][i])
 		{
-			if (*map[i] == '1')
+			if (map[j][i]  == '1')
+				paint_square(mlx_st, x, y, RED);
+			else if (map[j][i]  == 'N')
 			{
-				y = scale - SCALE;
-				while (y  < scale)
-				{
-					x = 0;
-					while (x < scale)
-					{
-						x++;
-					}
-					y++;
-				}
-				scale += SCALE;
-				i++;
+				find_layer(pl_st, mlx_st, x , y);
 			}
-			else if (*map[i] == '\0')
-				j++;
+			else
+				paint_square(mlx_st, x, y, GREEN);
+			x += SCALE;
+			i++;
 		}
+		y += SCALE;
+		j++;
 		i = 0;
 	}
+	
 }
 
 
@@ -78,6 +97,7 @@ int main(int argc, char **argv)
 	
 	(void) argc;
 	t_win  mlx_st;
+	t_plr pl_st;
 	fill_struct(&mlx_st);
 	
 	if (parcer(argv[1], &map) == -1)
@@ -85,7 +105,7 @@ int main(int argc, char **argv)
 		ft_putstr_fd("error",1);
 		exit(0);
 	}
-	paint_map(&mlx_st,map);
+	paint_map(&pl_st,&mlx_st,map);
 	
 	//----------------------------------------------------------------
 	printf("%s\n",map[0]);
