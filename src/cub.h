@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/13 17:00:56 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/13 20:59:13 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB_H
 # include "../libft/libft.h"
 # include "../minilibx_mms_20200219/mlx.h"
+# include <math.h>
 # define RED 0x00FF0000
 # define GREEN 0x0000FF00
 # define BLUE 0x000000FF
