@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/13 17:42:24 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/13 18:10:47 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,40 @@ void find_player(t_plr *pl_st, t_all *all_st,float x ,float y)
 	pl_st->dir = 0;
 	pl_st->start = 0;
 	pl_st->end = 0;
-	// paint_square(all_st->win, x, y, BLUE);
+	paint_square(all_st->win, x, y, BLUE);
 }
 
-void paint_map(t_plr *pl_st, t_win  *mlx_st, char **map, t_all *all_st)
+void next_paint_map(char **map, t_all *all_st)
+{
+	int y;
+	int x;
+	int i;
+	int j;
+
+	y = 0;
+	x = 0;
+	i = 0;
+	j = 0;
+	while (map[j])
+	{
+		x = 0;
+		while (map[j][i])
+		{
+			if (map[j][i]  == '1')
+				paint_square(all_st->win, x, y, RED);
+			else
+				paint_square(all_st->win, x, y, GREEN);
+			x += SCALE;
+			i++;
+		}
+		y += SCALE;
+		j++;
+		i = 0;
+	}
+	
+}
+
+void first_paint_map(t_plr *pl_st, t_win  *mlx_st, char **map, t_all *all_st)
 {
 	int y;
 	int x;
@@ -107,6 +137,7 @@ int		test_hook(int keycode, t_all *all_st)
 		all_st->plr->x -= STEP;
 	else if (keycode == D)
 		all_st->plr->x += STEP;
+	next_paint_map(all_st->map, all_st);
 	paint_square(all_st->win, all_st->plr->x, all_st->plr->y, BLUE);
 	mlx_put_image_to_window(all_st->win->mlx, all_st->win->win, all_st->win->img, 0, 0);
 	printf("%s%f\n","x = ", all_st->plr->x);
@@ -132,7 +163,7 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 	all_st.map = map;
-	paint_map(&pl_st,&mlx_st,map, &all_st);
+	first_paint_map(&pl_st,&mlx_st,map, &all_st);
 
 	
 	mlx_put_image_to_window(mlx_st.mlx, mlx_st.win, mlx_st.img, 0, 0);
