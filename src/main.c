@@ -6,13 +6,13 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/13 22:43:52 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:25:17 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 #include <stdio.h>
-#define SCALE 32
+
 
 void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
 {
@@ -21,6 +21,8 @@ void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
     dst = data->addr + (y * data->line_l + x * (data->bpp / 8));
     *(unsigned int*)dst = color;
 }
+
+
 
 void paint_square(t_win *data,int x, int y, int color)
 {
@@ -93,19 +95,44 @@ void side_of_the_world(char side, t_all *all_st)
 		all_st->plr->dir = M_PI;
 }
 
-void	ft_cast_ray(t_all *all)
+void	ft_cast_rays(t_all *all)
 {
-	t_plr	ray = *all->plr;
+	float ray_step;
 
-	while (all->map[(int)(ray.y / SCALE)][(int)(ray.x / SCALE)] != '1')
+	ray_step = (M_PI / 3) / WIGHT;
+	
+	t_plr	ray = *all->plr;
+	float start = ray.dir - M_PI_2 / 3; // начало веера лучей
+	float end = ray.dir + M_PI_2 / 3; // край веера лучей
+
+  while (start <= end)
 	{
-		ray.x += cos(ray.dir);
-		ray.y += sin(ray.dir);
-		my_mlx_pixel_put(all->win, ray.x, ray.y, 0x990099);
+		ray.x = all->plr->x; // каждый раз возвращаемся в точку начала
+		ray.y = all->plr->y;
+		while (all->map[(int)(ray.y / SCALE)][(int)(ray.x / SCALE)] != '1')
+		{
+			ray.x += cos(start);
+			ray.y += sin(start);
+			my_mlx_pixel_put(all->win, ray.x, ray.y, 0x990099);
+		}
+		start += ray_step;
+		printf("%f\n",sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)));
 	}
 }
 
-void first_paint_map(t_plr *pl_st, t_win  *mlx_st, char **map, t_all *all_st)
+// void	ft_cast_ray(t_all *all)
+// {
+// 	t_plr	ray = *all->plr;
+
+// 	while (all->map[(int)(ray.y / SCALE)][(int)(ray.x / SCALE)] != '1')
+// 	{
+// 		ray.x += cos(ray.dir);
+// 		ray.y += sin(ray.dir);
+// 		my_mlx_pixel_put(all->win, ray.x, ray.y, 0x990099);
+// 	}
+// }
+
+void  first_paint_map(t_plr *pl_st, t_win  *mlx_st, char **map, t_all *all_st)
 {
 	int y;
 	int x;
@@ -145,8 +172,8 @@ void first_paint_map(t_plr *pl_st, t_win  *mlx_st, char **map, t_all *all_st)
 void fill_struct(t_win  *mlx_st, t_all *all_st)
 {
 	mlx_st->mlx = mlx_init();
-	mlx_st->win = mlx_new_window(mlx_st->mlx,1920,1080,"Cub3D");
-	mlx_st->img = mlx_new_image(mlx_st->mlx, 1920, 1080);
+	mlx_st->win = mlx_new_window(mlx_st->mlx,WIGHT,HEIGHT,"Cub3D");
+	mlx_st->img = mlx_new_image(mlx_st->mlx, WIGHT, HEIGHT);
     mlx_st->addr = mlx_get_data_addr(mlx_st->img, &mlx_st->bpp, &mlx_st->line_l,
 	&mlx_st->en);
 }
@@ -160,20 +187,20 @@ int		hook(int keycode, t_all *all_st)
 		all_st->plr->y += STEP * sin(all_st->plr->dir);
 		all_st->plr->x += STEP * cos(all_st->plr->dir);
 	}
-	else if (keycode == S)
+	else if (keycode == S )
 	{
 		all_st->plr->y -= STEP * sin(all_st->plr->dir);
 		all_st->plr->x -= STEP * cos(all_st->plr->dir);
 	}
-	else if (keycode == A)
+	else if (keycode == A )
 	{
-		all_st->plr->x += STEP * cos(all_st->plr->dir);
-		all_st->plr->y += STEP * sin(all_st->plr->dir);
+		all_st->plr->x += STEP * sin(all_st->plr->dir);
+		all_st->plr->y += STEP * cos(all_st->plr->dir);
 	}
-	else if (keycode == D)
+	else if (keycode == D )
 	{
-		all_st->plr->x -= STEP * cos(all_st->plr->dir);
-		all_st->plr->y -= STEP * sin(all_st->plr->dir);
+		all_st->plr->x -=  STEP * sin(all_st->plr->dir);
+		all_st->plr->y -= STEP * cos(all_st->plr->dir);
 	}
 	else if (keycode == LEFT)
 		all_st->plr->dir -= 0.1;
@@ -181,11 +208,12 @@ int		hook(int keycode, t_all *all_st)
 		all_st->plr->dir  += 0.1;
 	next_paint_map(all_st->map, all_st);
 	paint_square(all_st->win, all_st->plr->x - (SCALE / 2), all_st->plr->y - (SCALE / 2), BLUE);
-	ft_cast_ray(all_st);
+	ft_cast_rays(all_st);
 	mlx_put_image_to_window(all_st->win->mlx, all_st->win->win, all_st->win->img, 0, 0);
-	printf("%s%f\n","x = ", all_st->plr->x);
-	printf("%s%f\n","y = ", all_st->plr->y);
+	// printf("%s%f\n","x = ", all_st->plr->x);
+	// printf("%s%f\n","y = ", all_st->plr->y);
 		// paint_square(all_st->win->mlx, all_st->plr->x + 1, all_st->plr->y + 1, BLUE);
+	return (0);
 }
 
 int main(int argc, char **argv)
@@ -200,10 +228,12 @@ int main(int argc, char **argv)
 	all_st.plr = &pl_st;
 	fill_struct(&mlx_st, &all_st);
 	
-	if (parcer(argv[1], &map) == -1)
+	if (parcer("map", &map) == -1)
 	{
 		ft_putstr_fd("error",1);
 		exit(0);
+		// strerror(24)
+		// perror("xyu");
 	}
 	all_st.map = map;
 	first_paint_map(&pl_st,&mlx_st,map, &all_st);

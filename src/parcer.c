@@ -6,17 +6,24 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:32:02 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/07 18:56:07 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/15 17:31:34 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
+// void parse_info(char **line)
+// {
+// 	while (*line != NULL)
+// 	{
+		
+// 	}
+// }
+
 int parcer(char *argv, char ***map)
 {
 	int fd;
 	char *line;
-	// char **map;
 	char *temp_str;
 
 	temp_str = "\0";
@@ -24,6 +31,7 @@ int parcer(char *argv, char ***map)
 		return (-1);
 	while (get_next_line(fd, &line) == 1)
 	{
+		// parse_info(&line);
 		if ((temp_str = ft_strjoin(temp_str, line)) == NULL)
 			return (-1);
 		if ((temp_str = ft_strjoin(temp_str, "\n"))== NULL)
