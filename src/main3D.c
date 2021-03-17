@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/15 23:05:31 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/17 23:34:42 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-void paint_line(t_all *all, int len, int x)
+void paint_line(t_all *all, double len, int x)
 {
-	double y;
-	double prop;
+	int y;
 	double wall;
 	double something;
 
@@ -33,20 +32,13 @@ void paint_line(t_all *all, int len, int x)
 	// prop = (WIGHT / 2) / (tan(M_PI_2 / 3));
 	// wall = (SCALE / len) * prop;
 	wall = (WIGHT / len) * 30;
-
 	something = HEIGHT / 2 - wall / 2;
 	while (y < something && y < HEIGHT)
-	{
 		my_mlx_pixel_put(all->win, x, y++, BLUE);
-	}
 	while (y < wall + something && y < HEIGHT)
-	{
 		my_mlx_pixel_put(all->win, x, y++, RED);
-	}
 	while (y < HEIGHT)
-	{
 		my_mlx_pixel_put(all->win, x, y++, GREEN);
-	}
 	
 }
 
@@ -54,6 +46,7 @@ void	ft_cast_rays(t_all *all)
 {
 	double ray_step;
 	double x;
+	double ray_lem;
 
 	x = 0;
 	ray_step = (M_PI / 3) / WIGHT;
@@ -72,10 +65,12 @@ void	ft_cast_rays(t_all *all)
 			ray.y += sin(start);
 		}
 		start += ray_step;
-		paint_line(all,sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)),x++);
+		ray_lem = sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)) * cos(ray.dir - start);
+		printf("nomer lucha %f ray x %f ray y %f \n", x, ray.x, ray.y);
+		paint_line(all,ray_lem,x++);
 
 		// while (x < WIGHT)
-		// 	paint_line(all,sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)),x++);
+			// paint_line(all,sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)),x++);
 		// printf("%f\n",sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)));
 	}
 }
@@ -102,7 +97,7 @@ void side_of_the_world(char side, t_all *all_st)
 		all_st->plr->dir = M_PI;
 }
 
-void find_player(t_plr *pl_st, t_all *all_st,double x ,double y)
+void find_player(t_plr *pl_st,double x ,double y)
 {
 	pl_st->x = x + (SCALE / 2);
 	pl_st->y = y + (SCALE / 2);
@@ -135,7 +130,7 @@ void  check_map(t_all *all_st)
 			if ((all_st->map[j][i]  == 'N') || (all_st->map[j][i]  == 'S')
 					 || (all_st->map[j][i]  == 'E') || (all_st->map[j][i]  == 'W'))
 			{
-				find_player(all_st->plr, all_st, x , y);
+				find_player(all_st->plr, x , y);//
 				side_of_the_world(all_st->map[j][i], all_st);
 			}
 			x += SCALE;
@@ -165,12 +160,12 @@ int		hook(int keycode, t_all *all_st)
 	else if (keycode == A )
 	{
 		all_st->plr->x += STEP * sin(all_st->plr->dir);
-		all_st->plr->y += STEP * cos(all_st->plr->dir);
+		all_st->plr->y -= STEP * cos(all_st->plr->dir);
 	}
 	else if (keycode == D )
 	{
 		all_st->plr->x -=  STEP * sin(all_st->plr->dir);
-		all_st->plr->y -= STEP * cos(all_st->plr->dir);
+		all_st->plr->y += STEP * cos(all_st->plr->dir);
 	}
 	else if (keycode == LEFT)
 		all_st->plr->dir -= 0.1;
@@ -189,6 +184,7 @@ int main(int argc, char **argv)
 	char **map;
 	
 	(void) argc;
+	(void) argv;//поменять
 	t_win  mlx_st;
 	t_plr pl_st;
 	t_all all_st;

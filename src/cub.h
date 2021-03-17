@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/15 22:57:17 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/17 23:27:26 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 # define DOWN 125
 # define LEFT 123
 # define RIGHT 124
-# define STEP 10
-# define WIGHT 1980
-# define HEIGHT 1080
+# define STEP 15
+# define WIGHT 800
+# define HEIGHT 600
 // # define RAY_STEP 
 typedef struct	s_win
 {
