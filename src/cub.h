@@ -6,12 +6,13 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/17 23:27:26 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/18 23:46:39 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_H
 # define CUB_H
+// # define MLX_SYNC_IMAGE_WRITABLE    1 
 # include "../libft/libft.h"
 # include "../minilibx_mms_20200219/mlx.h"
 # include <math.h>
@@ -28,8 +29,8 @@
 # define LEFT 123
 # define RIGHT 124
 # define STEP 15
-# define WIGHT 800
-# define HEIGHT 600
+# define WIGHT 1920
+# define HEIGHT 1080
 // # define RAY_STEP 
 typedef struct	s_win
 {
@@ -43,32 +44,52 @@ typedef struct	s_win
 }				t_win;
 typedef struct	s_plr
 {
-	double		x;
-	double		y;
+	long double		x;
+	long double		y;
 	double		dir;
-	double		start;
-	double		end;
+	long double		start;
+	long double		end;
 }				  t_plr;
 
-typedef struct	s_all
+typedef struct	s_info
 {
-	t_win		*win;
-	t_plr		*plr;
-	char		**map;
-}				  t_all;
-
-// typedef struct	s_info
-// {
 // 	int		R1;
 // 	int		R2;
-// 	char	*NO;
+
+
 // 	char	*SO;
 // 	char	*WE;
 // 	char	*EA;
 // 	char	*S1;
 // 	int		F;
 // 	int		C;
-// }				  t_info;
+}				t_info;
+
+typedef struct s_no
+{
+	char	*linc;
+	void	*img;
+	int		height;
+	int		weight;
+	void	*addr;
+	int		bpp;
+	int		line_l;
+	int		en;
+}				t_no;
+
+typedef struct s_textures
+{
+	t_no	*no;
+}				t_textures;
+
+typedef struct	s_all
+{
+	t_win		*win;
+	t_plr		*plr;
+	t_info		*info;
+	t_textures	*textures;
+	char		**map;
+}				  t_all;
 
 int parcer(char *argv,char ***map);
 
