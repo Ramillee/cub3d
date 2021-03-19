@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:32:02 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/15 17:31:34 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/19 20:35:26 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,26 @@
 // 	}
 // }
 
-int parcer(char *argv, char ***map)
+char	**parcer(char *argv)
 {
 	int fd;
 	char *line;
 	char *temp_str;
+	char	**map;
 
 	temp_str = "\0";
 	if ((fd = open(argv, O_RDONLY)) == -1)
-		return (-1);
+		return (NULL);
 	while (get_next_line(fd, &line) == 1)
 	{
 		// parse_info(&line);
 		if ((temp_str = ft_strjoin(temp_str, line)) == NULL)
-			return (-1);
+			return (NULL);
 		if ((temp_str = ft_strjoin(temp_str, "\n"))== NULL)
-			return (-1);
+			return (NULL);
 	}
 	if ((temp_str = ft_strjoin(temp_str, line)) == NULL)
-		return (-1);
-	*map = ft_split(temp_str,'\n');
-	return (1);
+		return (NULL);
+	map = ft_split(temp_str,'\n');
+	return (map);
 }

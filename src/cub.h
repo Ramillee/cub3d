@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/18 23:46:39 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/19 20:59:06 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,19 @@ typedef struct	s_info
 // 	int		C;
 }				t_info;
 
-typedef struct s_no
+// typedef struct s_no
+// {
+// 	char	*linc;
+// 	void	*img;
+// 	int		height;
+// 	int		weight;
+// 	void	*addr;
+// 	int		bpp;
+// 	int		line_l;
+// 	int		en;
+// }				t_no;
+
+typedef struct s_textures
 {
 	char	*linc;
 	void	*img;
@@ -75,11 +87,6 @@ typedef struct s_no
 	int		bpp;
 	int		line_l;
 	int		en;
-}				t_no;
-
-typedef struct s_textures
-{
-	t_no	*no;
 }				t_textures;
 
 typedef struct	s_all
@@ -91,6 +98,6 @@ typedef struct	s_all
 	char		**map;
 }				  t_all;
 
-int parcer(char *argv,char ***map);
+char	**parcer(char *argv);
 
 #endif

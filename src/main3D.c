@@ -6,17 +6,17 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/19 00:10:08 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/19 20:57:06 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 #include <stdio.h>
 
-int    my_mlx_pixel_get(t_info *info,t_all *all_st, int x, int y)
+int    my_mlx_pixel_get(t_all *all_st, int x, int y)
 {
    char    *dst;
-   dst = all_st->textures->no->addr + (y * all_st->textures->no->line_l + x * (all_st->textures->no->bpp / 8));
+   dst = all_st->textures->addr + (y * all_st->textures->line_l + x * (all_st->textures->bpp / 8));
    return (*(unsigned int*)dst);
 }
 
@@ -52,7 +52,7 @@ void paint_line(t_all *all, long double len, int x, double rayx, double rayy)
 		my_mlx_pixel_put(all->win, x, y++, BLUE);
 	while (y < wall + something && y < HEIGHT - 1)
 	{
-		color = my_mlx_pixel_get(all->info,all, hitx * 64,j * 64 / wall);
+		color = my_mlx_pixel_get(all, hitx * 64,j * 64 / wall);
 		my_mlx_pixel_put(all->win, x, y++, color);
 		j ++;
 	}
@@ -94,16 +94,18 @@ void	ft_cast_rays(t_all *all)
 	}
 }
 
-void fill_struct(t_win  *mlx_st, t_all *all_st)
+void fill_struct(t_win  *mlx_st,t_textures *textures_st)
 {
 	mlx_st->mlx = mlx_init();
 	mlx_st->win = mlx_new_window(mlx_st->mlx,WIGHT,HEIGHT,"Cub3D");
 	mlx_st->img = mlx_new_image(mlx_st->mlx, WIGHT, HEIGHT);
     mlx_st->addr = mlx_get_data_addr(mlx_st->img, &mlx_st->bpp, &mlx_st->line_l,
 	&mlx_st->en);
-	all_st->textures->no->img = mlx_xpm_file_to_image(mlx_st->mlx, all_st->textures->no->linc, &all_st->textures->no->weight, &all_st->textures->no->height);
-	all_st->textures->no->addr = mlx_get_data_addr(all_st->textures->no->img, &all_st->textures->no->bpp, &all_st->textures->no->line_l,
-	&all_st->textures->no->en);
+	textures_st->img = mlx_xpm_file_to_image(mlx_st->mlx, textures_st->linc,
+	&textures_st->weight, &textures_st->height);
+	textures_st->addr = mlx_get_data_addr(textures_st->img,
+	&textures_st->bpp, &textures_st->line_l,
+	&textures_st->en);
 //	ft_putnbr_fd(all_st->info->weight_no, 1);
 }
 
@@ -205,37 +207,36 @@ int		hook(int keycode, t_all *all_st)
 }
 
 int main(int argc, char **argv)
-{
-	char **map;
-	
+{	
 	(void) argc;
 	(void) argv;//поменять
 	t_win mlx_st;
-	t_info info_st;
+	// t_info info_st;
 	t_plr pl_st;
 	t_all all_st;
-	t_no no;
 	t_textures textures_st;
-	all_st.textures = &textures;
-	all_st.info = &info_st;
+	
+	all_st.textures = &textures_st;
 	all_st.win = &mlx_st;
-	all_st.plr = &pl_st;
-	all_st->textures = 
+	all_st.plr = &pl_st;	
 	// struct_texture(all_st,);
-	// info_st.NO = "../img/colorstone.xpm";
-	fill_struct(&mlx_st, &all_st);
-	if (parcer("map", &map) == -1)//поменять
+	// char *str = "./../img/colorstone.xpm";
+	// printf("%p",all_st.textures->linc);
+	all_st.textures->linc = "./../img/colorstone.xpm";
+	// all_st.textures = &textures_st;
+	fill_struct(all_st.win,all_st.textures);
+	if ((all_st.map = parcer("map")) == NULL)//поменять
 	{
 		ft_putstr_fd("error",1);
 		exit(0);
 		// strerror(24)
 		// perror("");
 	}
-	all_st.map = map;
+	// all_st.map = map;
 	// paint_map(&pl_st,&mlx_st,map, &all_st);
 	check_map(&all_st);
 	ft_cast_rays(&all_st);
-	mlx_put_image_to_window(mlx_st.mlx, mlx_st.win, mlx_st.img, 0, 0);
+	mlx_put_image_to_window(all_st.win->mlx, all_st.win->win, all_st.win->img, 0, 0);
 	// mlx_hook(mlx_st.win,  2, 1L<<0, hook, &all_st);
 	// mlx_hook(&mlx_st,2 , (1L<<0));
 	// //----------------------------------------------------------------
@@ -243,7 +244,7 @@ int main(int argc, char **argv)
 	// printf("%s\n",map[1]);
 	// printf("%s\n",map[2]);
 	// //----------------------------------------------------------------
-	mlx_hook(mlx_st.win,  2, 1L<<0, hook, &all_st);
-	mlx_loop(mlx_st.mlx);
+	mlx_hook(all_st.win->win,  2, 1L<<0, hook, &all_st);
+	mlx_loop(all_st.win);
 	return (0);
 }
