@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/19 20:57:06 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/19 22:40:20 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ void paint_line(t_all *all, long double len, int x, double rayx, double rayy)
 	while (y < wall + something && y < HEIGHT - 1)
 	{
 		color = my_mlx_pixel_get(all, hitx * 64,j * 64 / wall);
-		my_mlx_pixel_put(all->win, x, y++, color);
+		my_mlx_pixel_put(all->win, x, y + 1, color);
 		j ++;
+		y++;
 	}
 	while (y < HEIGHT - 1)
 		my_mlx_pixel_put(all->win, x, y++, GREEN);
@@ -211,7 +212,6 @@ int main(int argc, char **argv)
 	(void) argc;
 	(void) argv;//поменять
 	t_win mlx_st;
-	// t_info info_st;
 	t_plr pl_st;
 	t_all all_st;
 	t_textures textures_st;
@@ -224,9 +224,9 @@ int main(int argc, char **argv)
 	// printf("%p",all_st.textures->linc);
 	all_st.textures->linc = "./../img/colorstone.xpm";
 	// all_st.textures = &textures_st;
-	fill_struct(all_st.win,all_st.textures);
+	fill_struct(&mlx_st,&textures_st);
 	if ((all_st.map = parcer("map")) == NULL)//поменять
-	{
+	{ 
 		ft_putstr_fd("error",1);
 		exit(0);
 		// strerror(24)
@@ -245,6 +245,6 @@ int main(int argc, char **argv)
 	// printf("%s\n",map[2]);
 	// //----------------------------------------------------------------
 	mlx_hook(all_st.win->win,  2, 1L<<0, hook, &all_st);
-	mlx_loop(all_st.win);
+	mlx_loop(all_st.win->mlx);
 	return (0);
 }
