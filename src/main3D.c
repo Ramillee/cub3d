@@ -6,17 +6,20 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/19 22:40:20 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/21 18:43:10 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 #include <stdio.h>
 
-int    my_mlx_pixel_get(t_all *all_st, int x, int y)
+int    my_mlx_pixel_get(t_all *all_st, int x, int y,int i)
 {
-   char    *dst;
-   dst = all_st->textures->addr + (y * all_st->textures->line_l + x * (all_st->textures->bpp / 8));
+	char    *dst;
+	// if (i == 1)
+		dst = all_st->textures[i].addr + (y * all_st->textures[i].line_l + x * (all_st->textures[i].bpp / 8));
+	// else if (i == 2)
+	// 	dst = all_st->textures->addr_s + (y * all_st->textures->line_l_s + x * (all_st->textures->bpp_s / 8));
    return (*(unsigned int*)dst);
 }
 
@@ -28,7 +31,7 @@ void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-void paint_line(t_all *all, long double len, int x, double rayx, double rayy)
+void paint_line(t_all *all, long double len, int x, double rayx, double rayy, int side)
 {
 	int y;
 	long double wall;
@@ -52,10 +55,22 @@ void paint_line(t_all *all, long double len, int x, double rayx, double rayy)
 		my_mlx_pixel_put(all->win, x, y++, BLUE);
 	while (y < wall + something && y < HEIGHT - 1)
 	{
-		color = my_mlx_pixel_get(all, hitx * 64,j * 64 / wall);
-		my_mlx_pixel_put(all->win, x, y + 1, color);
+		if (side == 1)
+			my_mlx_pixel_put(all->win, x  , y++ , my_mlx_pixel_get(all, hitx * 64 ,j * 64 / wall ,1));
+		else if(side == 2)
+			my_mlx_pixel_put(all->win, x  , y++ , my_mlx_pixel_get(all, hitx * 64 ,j * 64 / wall ,2));
+		// else if(side == 3)
+		// 	my_mlx_pixel_put(all->win, x, y++, 0xFFFF00);
+		// else
+		// {
+		// color = my_mlx_pixel_get(all, hitx * 64 ,j * 64 / wall ,1);
+		// // if (hitx > 0)
+		// 	my_mlx_pixel_put(all->win, x  , y++ , color);
+		// // }
+		// color = my_mlx_pixel_get(all, j * 64 / wall,hity * 64,2);
+		// // if (hity > 0)
+		// 	my_mlx_pixel_put(all->win, x, y++, color);
 		j ++;
-		y++;
 	}
 	while (y < HEIGHT - 1)
 		my_mlx_pixel_put(all->win, x, y++, GREEN);
@@ -67,6 +82,8 @@ void	ft_cast_rays(t_all *all)
 	long double ray_step;
 	long double x;
 	long double ray_len;
+	int	side = 0;
+	// (void ) side; 
 
 	x = 0;
 	ray_step = (M_PI / 3) / WIGHT;
@@ -84,10 +101,16 @@ void	ft_cast_rays(t_all *all)
 			ray.x += cos(start) / 10;
 			ray.y += sin(start) / 10;
 		}
+		// if (all->map[(int)(ray.y / SCALE)][(int)(ray.x / SCALE) - 1] == '0')
+		// 	side = 1;
+		// if (all->map[(int)(ray.y / SCALE)][(int)(ray.x / SCALE) +  1] == '0')
+		// 	side = 2;
+		// if (all->map[(int)(ray.y / SCALE)][(int)(ray.x / SCALE)] == '0')
+		// 	side = 3;
 		start += ray_step;
 		ray_len = sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)) * cos(ray.dir - start);
 		// 
-		paint_line(all,ray_len,x++, ray.x / SCALE, ray.y / SCALE);
+		paint_line(all,ray_len,x++, ray.x / SCALE, ray.y / SCALE,side);
 
 		// while (x < WIGHT)
 			// paint_line(all,sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)),x++);
@@ -95,19 +118,29 @@ void	ft_cast_rays(t_all *all)
 	}
 }
 
-void fill_struct(t_win  *mlx_st,t_textures *textures_st)
+void fill_struct(t_win  *mlx_st,t_all *all_st)
 {
 	mlx_st->mlx = mlx_init();
 	mlx_st->win = mlx_new_window(mlx_st->mlx,WIGHT,HEIGHT,"Cub3D");
 	mlx_st->img = mlx_new_image(mlx_st->mlx, WIGHT, HEIGHT);
     mlx_st->addr = mlx_get_data_addr(mlx_st->img, &mlx_st->bpp, &mlx_st->line_l,
 	&mlx_st->en);
-	textures_st->img = mlx_xpm_file_to_image(mlx_st->mlx, textures_st->linc,
-	&textures_st->weight, &textures_st->height);
-	textures_st->addr = mlx_get_data_addr(textures_st->img,
-	&textures_st->bpp, &textures_st->line_l,
-	&textures_st->en);
-//	ft_putnbr_fd(all_st->info->weight_no, 1);
+	int i = -1;
+	while (++i < 2)
+	{
+		all_st->textures[i]->img = mlx_xpm_file_to_image(mlx_st->mlx, all_st->textures[i]->linc,
+		all_st->textures[i]->weight, all_st->textures[i]->height);
+		all_st->textures[i]->addr = mlx_get_data_addr(all_st->textures[i]->img,
+		all_st->textures[i]->bpp, &textures_st[i].line_l,
+		&textures_st[i].en);	
+	}
+	
+// 	textures_st->img_s = mlx_xpm_file_to_image(mlx_st->mlx, textures_st->linc_s,
+// 	&textures_st->weight_s, &textures_st->height_s);
+// 	textures_st->addr_s = mlx_get_data_addr(textures_st->img_s,
+// 	&textures_st->bpp_s, &textures_st->line_l_s,
+// 	&textures_st->en_s);
+// //	ft_putnbr_fd(all_st->info->weight_no, 1);
 }
 
 
@@ -214,17 +247,27 @@ int main(int argc, char **argv)
 	t_win mlx_st;
 	t_plr pl_st;
 	t_all all_st;
-	t_textures textures_st;
-	
-	all_st.textures = &textures_st;
+	int i;
+	i = 0;
+	t_textures *texture;
+	while (i < 5)
+	{
+		texture = malloc(sizeof(t_textures));
+		all_st.textures[i] = texture;
+		i++;
+	}
+
+	// textures_st = (t_textures *)malloc(sizeof(textures_st) * 5);
+	//all_st.textures = textures_st;
 	all_st.win = &mlx_st;
 	all_st.plr = &pl_st;	
 	// struct_texture(all_st,);
 	// char *str = "./../img/colorstone.xpm";
 	// printf("%p",all_st.textures->linc);
-	all_st.textures->linc = "./../img/colorstone.xpm";
+	all_st.textures[0]->linc = "./../img/colorstone.xpm";
+	all_st.textures[1]->linc = "./../img/redbrick.xpm";
 	// all_st.textures = &textures_st;
-	fill_struct(&mlx_st,&textures_st);
+	fill_struct(&mlx_st,&all_st);
 	if ((all_st.map = parcer("map")) == NULL)//поменять
 	{ 
 		ft_putstr_fd("error",1);
