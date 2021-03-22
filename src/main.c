@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/17 19:49:04 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/22 21:10:38 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
 
 
 
-void paint_square(t_win *data,int x, int y, int color)
+void paint_square(t_win *data,float x, float y, int color)
 {
-	int start_x;
-	int start_y;
+	float start_x;
+	float start_y;
 
 	start_y = y;
 	start_x = x;
@@ -228,13 +228,13 @@ int main(int argc, char **argv)
 	all_st.plr = &pl_st;
 	fill_struct(&mlx_st, &all_st);
 	
-	if (parcer("map", &map) == -1)
-	{
-		ft_putstr_fd("error",1);
-		exit(0);
-		// strerror(24)
-		// perror("xyu");
-	}
+	map = parcer("map");
+	// {
+	// 	ft_putstr_fd("error",1);
+	// 	exit(0);
+	// 	// strerror(24)
+	// 	// perror("xyu");
+	// }
 	all_st.map = map;
 	first_paint_map(&pl_st,&mlx_st,map, &all_st);
 

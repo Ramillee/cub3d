@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/21 18:35:12 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/22 21:11:50 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "../minilibx_mms_20200219/mlx.h"
 # include <math.h>
 # include <stdio.h>
-# define SCALE 1.0
+# define SCALE 32.0
 # define RED 0x00FF0000
 # define GREEN 0x0000FF00
 # define BLUE 0x000000FF
@@ -52,19 +52,15 @@ typedef struct	s_plr
 	long double		end;
 }				  t_plr;
 
-typedef struct	s_info
+typedef struct	s_ray
 {
-// 	int		R1;
-// 	int		R2;
-
-
-// 	char	*SO;
-// 	char	*WE;
-// 	char	*EA;
-// 	char	*S1;
-// 	int		F;
-// 	int		C;
-}				t_info;
+	long double old_x;
+	long double	old_y;
+	long double ray_x;
+	long double ray_y;
+	long double ray_len;
+	long double ray_step;
+}				t_ray;
 
 typedef struct s_textures
 {
@@ -91,7 +87,7 @@ typedef struct	s_all
 {
 	t_win		*win;
 	t_plr		*plr;
-	t_info		*info;
+	// t_info		*info;
 	t_textures	*textures[5];
 	char		**map;
 	// t_textures  *tex1;
