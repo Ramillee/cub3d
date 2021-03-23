@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/23 20:58:37 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/24 01:05:04 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ void paint_line(t_all *all, t_ray *ray_st,int x)
 	double hity;
 	static int color;
 
-	hitx = ray_st->ray_x - (int)ray_st->ray_x;
-	hity = ray_st->ray_y - (int)ray_st->ray_y;
+	hitx = (ray_st->ray_x / 32) - (int)(ray_st->ray_x / 32);
+	hity = (ray_st->ray_y / 32)	 - (int)(ray_st->ray_y / 32);
+	// printf("  :%d:  ",(int)ray_st->ray_x);
 	// ray_st.ray_x
 	
 	// double j = (ray_st->ray_x - (int)ray_st->ray_x);
@@ -50,25 +51,25 @@ void paint_line(t_all *all, t_ray *ray_st,int x)
 	y = 0;
 	// prop = (WIGHT / 2) / (tan(M_PI_2 / 3));
 	// wall = (SCALE / len) * prop;
-	wall = (WIGHT / ray_st->ray_len) * 30;
+	wall = (HEIGHT / ray_st->ray_len) * 32;
 	sky = HEIGHT / 2 - wall / 2;
+	// int *i = [0,1,2,3];
 	int j = 0;
 	while (y < sky && y < HEIGHT - 1)
 		my_mlx_pixel_put(all->win, x, y++, 0xFFFFFF);
 	while (y < wall + sky && y < HEIGHT - 1)
 	{
-		
 		// my_mlx_pixel_put(all->win, x  , y++ , my_mlx_pixel_get(all, hitx * 64 ,j * 64 / wall ,2));
 		if (((int)  ray_st->ray_x == (int) ray_st->old_x) && (int) ray_st->old_y - (int) ray_st->ray_y > 0)
-			color = my_mlx_pixel_get(all, hity * 64 ,j * 64 / wall ,0);
+			color = my_mlx_pixel_get(all, hitx * 64 , j * 64 / wall ,0);
 		else if (((int) ray_st->ray_x == (int) ray_st->old_x) && (int) ray_st->old_y - (int) ray_st->ray_y < 0)
-			color = my_mlx_pixel_get(all, hity * 64 ,j * 64 / wall ,1);
+			color = my_mlx_pixel_get(all, hitx * 64 ,j * 64 / wall ,1);
 		else if (((int) ray_st->ray_y == (int) ray_st->old_y) && (int) ray_st->old_x - (int) ray_st->ray_x < 0)
-			color = my_mlx_pixel_get(all, hitx * 64 , j * 64 / wall,2);
+			color = my_mlx_pixel_get(all, hity * 64 , j * 64 / wall,2);
 		else if (((int) ray_st->ray_y == (int) ray_st->old_y) && (int) ray_st->old_x - (int) ray_st->ray_x > 0)
-			color = my_mlx_pixel_get(all, hitx * 64 ,j * 64 / wall ,3);
+			color = my_mlx_pixel_get(all, hity * 64 ,j * 64 / wall ,3);
 		my_mlx_pixel_put(all->win, x, y++, color);
-		j ++;
+		j++;
 	}
 	while (y < HEIGHT - 1)
 		my_mlx_pixel_put(all->win, x, y++, GREEN);
@@ -102,8 +103,8 @@ void	ft_cast_rays(t_all *all)
 		{
 			ray_st.old_x = ray_st.ray_x;
 			ray_st.old_y = ray_st.ray_y;
-			ray_st.ray_x += cos(start) ;
-			ray_st.ray_y += sin(start) ;
+			ray_st.ray_x += cos(start) / 10;
+			ray_st.ray_y += sin(start) / 10;
 		}
 		start += ray_st.ray_step;
 		ray_st.ray_len = sqrt(pow(ray_st.ray_x - all->plr->x,2) + pow(ray_st.ray_y - all->plr->y,2)) * cos(ray.dir - start);
