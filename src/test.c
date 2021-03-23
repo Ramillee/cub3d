@@ -1,13 +1,10 @@
-// #include <mlx.h>
-#include "cub.h"
+// // #include <mlx.h>
+// #include "cub.h"
 
-int     main(void)
-{
-   t_textures texture[5];
+// int     main(void)
+// {
+//     printf(":%8.-4d:\n",8);
+//     printf(":%8.4d:\n",8);
+//     // printf("%-4d",8);
 
-	// all_st.textures = &textures_st;
-    texture[0].linc = "./../img/colorstone.xpm";
-    texture[1].linc = "./../img/redbrick.xpm";
-
-    printf("%s",texture[0].linc);
-}
+// }
