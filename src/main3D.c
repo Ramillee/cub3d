@@ -6,12 +6,11 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/24 01:05:04 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/27 05:31:27 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-#include <stdio.h>
 
 int    my_mlx_pixel_get(t_all *all_st, int x, int y,int i)
 {
@@ -31,11 +30,12 @@ void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
 void paint_line(t_all *all, t_ray *ray_st,int x)
 {
 	int y;
-	long double wall;
-	long double sky;
+	double wall;
+	double sky;
 	double hitx;
 	double hity;
-	static int color;
+	 int color;
+	static int i; 
 
 	hitx = (ray_st->ray_x / 32) - (int)(ray_st->ray_x / 32);
 	hity = (ray_st->ray_y / 32)	 - (int)(ray_st->ray_y / 32);
@@ -53,21 +53,33 @@ void paint_line(t_all *all, t_ray *ray_st,int x)
 	// wall = (SCALE / len) * prop;
 	wall = (HEIGHT / ray_st->ray_len) * 32;
 	sky = HEIGHT / 2 - wall / 2;
+	// printf("%f\n",sky);
 	// int *i = [0,1,2,3];
 	int j = 0;
-	while (y < sky && y < HEIGHT - 1)
-		my_mlx_pixel_put(all->win, x, y++, 0xFFFFFF);
+
+	if (sky < 0)
+		j += fabs(sky);
+	else
+		while (y < sky && y < HEIGHT - 1)
+			my_mlx_pixel_put(all->win, x, y++, 0xFFFFFF);
+	// j = y;
 	while (y < wall + sky && y < HEIGHT - 1)
 	{
 		// my_mlx_pixel_put(all->win, x  , y++ , my_mlx_pixel_get(all, hitx * 64 ,j * 64 / wall ,2));
 		if (((int)  ray_st->ray_x == (int) ray_st->old_x) && (int) ray_st->old_y - (int) ray_st->ray_y > 0)
-			color = my_mlx_pixel_get(all, hitx * 64 , j * 64 / wall ,0);
+			i = 0;
 		else if (((int) ray_st->ray_x == (int) ray_st->old_x) && (int) ray_st->old_y - (int) ray_st->ray_y < 0)
-			color = my_mlx_pixel_get(all, hitx * 64 ,j * 64 / wall ,1);
+			i = 1;
 		else if (((int) ray_st->ray_y == (int) ray_st->old_y) && (int) ray_st->old_x - (int) ray_st->ray_x < 0)
-			color = my_mlx_pixel_get(all, hity * 64 , j * 64 / wall,2);
+			i = 2;
 		else if (((int) ray_st->ray_y == (int) ray_st->old_y) && (int) ray_st->old_x - (int) ray_st->ray_x > 0)
-			color = my_mlx_pixel_get(all, hity * 64 ,j * 64 / wall ,3);
+			i = 3;
+		// else
+		// 	color = my_mlx_pixel_get(all, hitx * 64 ,j * 64 / wall ,1);
+		if (i == 0 || i == 1)
+			color = my_mlx_pixel_get(all, hitx * 64 , j * 64 / wall ,i);
+		else
+			color = my_mlx_pixel_get(all, hity * 64 , j * 64 / wall ,i);
 		my_mlx_pixel_put(all->win, x, y++, color);
 		j++;
 	}
@@ -79,21 +91,22 @@ void paint_line(t_all *all, t_ray *ray_st,int x)
 void	ft_cast_rays(t_all *all)
 {
 	// long double ray_step;
-	long double x;
+	float x;
 	// long double ray_len;
 	// // int	side = 0;
 	// int old_x = 0;
 	// int old_y = 0;
 
 	t_ray ray_st;
+	all->plr->ray = &ray_st;
 	// (void ) side;
 
 	x = 0;
-	ray_st.ray_step = (M_PI / 3) / WIGHT;
+	ray_st.ray_step = (M_PI/3) / WIGHT;
 	
 	t_plr	ray = *all->plr;
-	long double start = ray.dir - M_PI_2 / 3; // начало веера лучей
-	long double end = ray.dir + M_PI_2 / 3; // край веера лучей
+	float start = ray.dir - M_PI_2/3; // начало веера лучей
+	float end = ray.dir + M_PI_2/3; // край веера лучей
 	
   while (start <= end)
 	{
@@ -101,6 +114,8 @@ void	ft_cast_rays(t_all *all)
 		ray_st.ray_y = all->plr->y;
 		while (all->map[(int)(ray_st.ray_y / SCALE)][(int)(ray_st.ray_x / SCALE)] != '1')
 		{
+			// if (all->map[(int)(ray_st.ray_y / SCALE)][(int)(ray_st.ray_x / SCALE)] == '2')
+				
 			ray_st.old_x = ray_st.ray_x;
 			ray_st.old_y = ray_st.ray_y;
 			ray_st.ray_x += cos(start) / 10;
@@ -124,7 +139,7 @@ void fill_struct(t_win  *mlx_st,t_all *all_st)
     mlx_st->addr = mlx_get_data_addr(mlx_st->img, &mlx_st->bpp, &mlx_st->line_l,
 	&mlx_st->en);
 	int i = -1;
-	while (++i < 4)
+	while (++i < 5)
 	{
 		all_st->textures[i]->img = mlx_xpm_file_to_image(mlx_st->mlx, all_st->textures[i]->linc,
 		&all_st->textures[i]->weight, &all_st->textures[i]->height);
@@ -153,7 +168,7 @@ void side_of_the_world(char side, t_all *all_st)
 		all_st->plr->dir = M_PI;
 }
 
-void find_player(t_plr *pl_st,double x ,double y)
+void find_player(t_plr *pl_st,float x ,float y)
 {
 	pl_st->x = x + (SCALE / 2);
 	pl_st->y = y + (SCALE / 2);
@@ -202,32 +217,53 @@ void  check_map(t_all *all_st)
 
 int		hook(int keycode, t_all *all_st)
 {
-	// printf("move\n");
-	// printf("%d\n",keycode);
-	if (keycode == W)
+	if (keycode == W )
 	{
-		all_st->plr->y += STEP * sin(all_st->plr->dir);
-		all_st->plr->x += STEP * cos(all_st->plr->dir);
+		if (all_st->map[(int)((all_st->plr->y + STEP * sin(all_st->plr->dir)) / SCALE)]
+		[(int) ((all_st->plr->x + STEP * cos(all_st->plr->dir)) /  SCALE)] != '1')
+		{
+			all_st->plr->y += STEP * sin(all_st->plr->dir);
+			all_st->plr->x += STEP * cos(all_st->plr->dir);
+		}
+		// else
+		// {
+		// 	all_st->plr->y -= STEP * sin(all_st->plr->dir);
+		// 	all_st->plr->x -= STEP * cos(all_st->plr->dir);
+		// }
 	}
 	else if (keycode == S )
 	{
-		all_st->plr->y -= STEP * sin(all_st->plr->dir);
-		all_st->plr->x -= STEP * cos(all_st->plr->dir);
+		if (all_st->map[(int)((all_st->plr->y - STEP * sin(all_st->plr->dir)) / SCALE)]
+		[(int) ((all_st->plr->x - STEP * cos(all_st->plr->dir)) /  SCALE)] != '1')
+		{
+			all_st->plr->y -= STEP * sin(all_st->plr->dir);
+			all_st->plr->x -= STEP * cos(all_st->plr->dir);
+		}
 	}
 	else if (keycode == A )
 	{
-		all_st->plr->x += STEP * sin(all_st->plr->dir);
-		all_st->plr->y -= STEP * cos(all_st->plr->dir);
+		if (all_st->map[(int)((all_st->plr->y - STEP * cos(all_st->plr->dir)) / SCALE)]
+		[(int) ((all_st->plr->x + STEP * sin(all_st->plr->dir)) /  SCALE)] != '1')
+		{
+			all_st->plr->x += STEP * sin(all_st->plr->dir);
+			all_st->plr->y -= STEP * cos(all_st->plr->dir);
+		}
 	}
 	else if (keycode == D )
 	{
-		all_st->plr->x -=  STEP * sin(all_st->plr->dir);
-		all_st->plr->y += STEP * cos(all_st->plr->dir);
+		if (all_st->map[(int)((all_st->plr->y + STEP * cos(all_st->plr->dir)) / SCALE)]
+		[(int) ((all_st->plr->x - STEP * sin(all_st->plr->dir)) /  SCALE)] != '1')
+		{
+			all_st->plr->x -=  STEP * sin(all_st->plr->dir);
+			all_st->plr->y += STEP * cos(all_st->plr->dir);
+		}
 	}
 	else if (keycode == LEFT)
 		all_st->plr->dir -= 0.188;
 	else if (keycode == RIGHT)
 		all_st->plr->dir  += 0.188;
+	if (all_st->plr->dir > M_PI + M_PI)
+		all_st->plr->dir = all_st->plr->dir - (M_PI + M_PI);
 	ft_cast_rays(all_st);
 	// int	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, vall_st->win->img);
 	mlx_put_image_to_window(all_st->win->mlx, all_st->win->win, all_st->win->img, 0, 0);
@@ -267,6 +303,7 @@ int main(int argc, char **argv)
 	all_st.textures[1]->linc = "./../img/redbrick.xpm";
 	all_st.textures[2]->linc = "./../img/greystone.xpm";
 	all_st.textures[3]->linc = "./../img/wood.xpm";
+	all_st.textures[4]->linc = "./../img/pillar.xpm";
 
 	// all_st.textures = &textures_st;
 	fill_struct(&mlx_st,&all_st);

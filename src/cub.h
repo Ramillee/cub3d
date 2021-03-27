@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/24 01:05:31 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/27 05:31:22 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "../minilibx_mms_20200219/mlx.h"
 # include <math.h>
 # include <stdio.h>
-# define SCALE 32.0
+# define SCALE 64.0
 # define RED 0x00FF0000
 # define GREEN 0x0000FF00
 # define BLUE 0x000000FF
@@ -43,24 +43,31 @@ typedef struct	s_win
 	int			bpp;
 	int			en;
 }				t_win;
-typedef struct	s_plr
-{
-	long double		x;
-	long double		y;
-	double		dir;
-	long double		start;
-	long double		end;
-}				  t_plr;
 
 typedef struct	s_ray
 {
-	long double old_x;
-	long double	old_y;
-	long double ray_x;
-	long double ray_y;
-	long double ray_len;
-	long double ray_step;
+	double old_x;
+	double	old_y;
+	double ray_x;
+	double ray_y;
+	double ray_len;
+	double ray_step;
 }				t_ray;
+typedef struct	s_plr
+{
+	float		x;
+	float		y;
+	float		dir;
+	float		start;
+	float		end;
+	t_ray		*ray;
+}				  t_plr;
+typedef struct	s_sprite
+{
+	float		x;
+	float		y;
+	float		dir;	
+}				t_sprite;
 
 typedef struct s_textures
 {
@@ -87,10 +94,9 @@ typedef struct	s_all
 {
 	t_win		*win;
 	t_plr		*plr;
-	// t_info		*info;
 	t_textures	*textures[5];
 	char		**map;
-	// t_textures  *tex1;
+	// t_sprite 
 	
 }				  t_all;
 
