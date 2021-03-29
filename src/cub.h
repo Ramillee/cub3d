@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/27 05:31:22 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/29 17:32:53 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../minilibx_mms_20200219/mlx.h"
 # include <math.h>
 # include <stdio.h>
+# include <errno.h>
 # define SCALE 64.0
 # define RED 0x00FF0000
 # define GREEN 0x0000FF00
@@ -66,7 +67,10 @@ typedef struct	s_sprite
 {
 	float		x;
 	float		y;
-	float		dir;	
+	float		dir;
+	float		dist;
+	float		h_offset;
+	float		v_offset;
 }				t_sprite;
 
 typedef struct s_textures
@@ -95,8 +99,10 @@ typedef struct	s_all
 	t_win		*win;
 	t_plr		*plr;
 	t_textures	*textures[5];
+	// char		*sprites;
 	char		**map;
 	// t_sprite 
+	t_sprite	*sprites;
 	
 }				  t_all;
 

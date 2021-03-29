@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/27 05:31:27 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/29 17:46:36 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
     dst = data->addr + (y * data->line_l + x * (data->bpp / 8));
     *(unsigned int*)dst = color;
 }
+
+void paint_square(t_win *data,float x, float y, int color)
+{
+	float start_x;
+	float start_y;
+
+	start_y = y;
+	start_x = x;
+	while (y++ < SCALE + start_y)
+	{
+		x = start_x;
+		while (x++ < SCALE + start_x)
+			my_mlx_pixel_put(data, x, y, color);
+	}
+}
+
 
 void paint_line(t_all *all, t_ray *ray_st,int x)
 {
@@ -115,6 +131,9 @@ void	ft_cast_rays(t_all *all)
 		while (all->map[(int)(ray_st.ray_y / SCALE)][(int)(ray_st.ray_x / SCALE)] != '1')
 		{
 			// if (all->map[(int)(ray_st.ray_y / SCALE)][(int)(ray_st.ray_x / SCALE)] == '2')
+			// {
+			// 	my_mlx_pixel_put(all->win,ray_st.ray_x, ray_st.old_y,0xFF0000);
+			// }
 				
 			ray_st.old_x = ray_st.ray_x;
 			ray_st.old_y = ray_st.ray_y;
@@ -129,16 +148,18 @@ void	ft_cast_rays(t_all *all)
 			// paint_line(all,sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)),x++);
 		// printf("%f\n",sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)));
 	}
+	//
 }
 
 void fill_struct(t_win  *mlx_st,t_all *all_st)
 {
+	int i = -1;
+	
 	mlx_st->mlx = mlx_init();
 	mlx_st->win = mlx_new_window(mlx_st->mlx,WIGHT,HEIGHT,"Cub3D");
 	mlx_st->img = mlx_new_image(mlx_st->mlx, WIGHT, HEIGHT);
     mlx_st->addr = mlx_get_data_addr(mlx_st->img, &mlx_st->bpp, &mlx_st->line_l,
 	&mlx_st->en);
-	int i = -1;
 	while (++i < 5)
 	{
 		all_st->textures[i]->img = mlx_xpm_file_to_image(mlx_st->mlx, all_st->textures[i]->linc,
@@ -147,13 +168,6 @@ void fill_struct(t_win  *mlx_st,t_all *all_st)
 		&all_st->textures[i]->bpp, &all_st->textures[i]->line_l,
 		&all_st->textures[i]->en);	
 	}
-	
-// 	textures_st->img_s = mlx_xpm_file_to_image(mlx_st->mlx, textures_st->linc_s,
-// 	&textures_st->weight_s, &textures_st->height_s);
-// 	textures_st->addr_s = mlx_get_data_addr(textures_st->img_s,
-// 	&textures_st->bpp_s, &textures_st->line_l_s,
-// 	&textures_st->en_s);
-// //	ft_putnbr_fd(all_st->info->weight_no, 1);
 }
 
 void side_of_the_world(char side, t_all *all_st)
@@ -172,117 +186,178 @@ void find_player(t_plr *pl_st,float x ,float y)
 {
 	pl_st->x = x + (SCALE / 2);
 	pl_st->y = y + (SCALE / 2);
-	//--------------
-	// printf("%s%f\n","x: ",x);
-	// printf("%s%f\n","y: ",y);
-	//--------------
 	pl_st->dir = 0;
 	pl_st->start = 0;
 	pl_st->end = 0;
-	// paint_square(all_st->win, x, y, BLUE);
 }
 
 void  check_map(t_all *all_st)
 {
-	int y;
-	int x;
 	int i;
 	int j;
 
-	y = 0;
-	x = 0;
 	i = 0;
 	j = 0;
 	
 	while (all_st->map[j])
 	{
-		x = 0;
 		while (all_st->map[j][i])
 		{
 			if ((all_st->map[j][i]  == 'N') || (all_st->map[j][i]  == 'S')
 					 || (all_st->map[j][i]  == 'E') || (all_st->map[j][i]  == 'W'))
 			{
-				find_player(all_st->plr, x , y);//
+				find_player(all_st->plr, i * SCALE , j * SCALE);//
 				side_of_the_world(all_st->map[j][i], all_st);
 			}
-			x += SCALE;
 			i++;
 		}
-		y += SCALE;
 		j++;
 		i = 0;
 	}
 	
 }
 
-int		hook(int keycode, t_all *all_st)
+int paint_sprite(t_all *all_st)
 {
-	if (keycode == W )
+	int a;
+	int count;
+
+	a = -1;
+	count = count_sprite(all_st);
+	while (++a < count)
 	{
-		if (all_st->map[(int)((all_st->plr->y + STEP * sin(all_st->plr->dir)) / SCALE)]
-		[(int) ((all_st->plr->x + STEP * cos(all_st->plr->dir)) /  SCALE)] != '1')
-		{
-			all_st->plr->y += STEP * sin(all_st->plr->dir);
-			all_st->plr->x += STEP * cos(all_st->plr->dir);
-		}
-		// else
-		// {
-		// 	all_st->plr->y -= STEP * sin(all_st->plr->dir);
-		// 	all_st->plr->x -= STEP * cos(all_st->plr->dir);
-		// }
+		all_st->sprites[a].dir = atan2(all_st->sprites[a].y - all_st->plr->y, all_st->sprites[a].x - all_st->plr->x);
+		all_st->sprites[a].dist = sqrt(pow(all_st->sprites[a].x - all_st->plr->x,2) + pow(all_st->sprites[a].y - all_st->plr->y,2));
+		all_st->sprites[a].h_offset = (all_st->sprites[a].dir - player.a)*(fb.w/2)/(player.fov) + (fb.w/2)/2 - sprite_screen_size/2;
+    	all_st->sprites[a].v_offset = fb.h/2 - sprite_screen_size/2;
 	}
-	else if (keycode == S )
+	
+}
+
+int		hook(int keycode, t_all *all)
+{
+	if (keycode == W && 
+		(all->map[(int)((all->plr->y + STEP * sin(all->plr->dir)) / SCALE)]
+		[(int) ((all->plr->x + STEP * cos(all->plr->dir)) /  SCALE)] != '1'))
 	{
-		if (all_st->map[(int)((all_st->plr->y - STEP * sin(all_st->plr->dir)) / SCALE)]
-		[(int) ((all_st->plr->x - STEP * cos(all_st->plr->dir)) /  SCALE)] != '1')
-		{
-			all_st->plr->y -= STEP * sin(all_st->plr->dir);
-			all_st->plr->x -= STEP * cos(all_st->plr->dir);
-		}
+	all->plr->y += STEP * sin(all->plr->dir);
+	all->plr->x += STEP * cos(all->plr->dir);
 	}
-	else if (keycode == A )
+	else if (keycode == S &&
+	(all->map[(int)((all->plr->y - STEP * sin(all->plr->dir)) / SCALE)]
+	[(int) ((all->plr->x - STEP * cos(all->plr->dir)) /  SCALE)] != '1'))
 	{
-		if (all_st->map[(int)((all_st->plr->y - STEP * cos(all_st->plr->dir)) / SCALE)]
-		[(int) ((all_st->plr->x + STEP * sin(all_st->plr->dir)) /  SCALE)] != '1')
-		{
-			all_st->plr->x += STEP * sin(all_st->plr->dir);
-			all_st->plr->y -= STEP * cos(all_st->plr->dir);
-		}
+			all->plr->y -= STEP * sin(all->plr->dir);
+			all->plr->x -= STEP * cos(all->plr->dir);
+
 	}
-	else if (keycode == D )
+	else if (keycode == A &&
+	(all->map[(int)((all->plr->y - STEP * cos(all->plr->dir)) / SCALE)]
+	[(int) ((all->plr->x + STEP * sin(all->plr->dir)) /  SCALE)] != '1'))
 	{
-		if (all_st->map[(int)((all_st->plr->y + STEP * cos(all_st->plr->dir)) / SCALE)]
-		[(int) ((all_st->plr->x - STEP * sin(all_st->plr->dir)) /  SCALE)] != '1')
-		{
-			all_st->plr->x -=  STEP * sin(all_st->plr->dir);
-			all_st->plr->y += STEP * cos(all_st->plr->dir);
-		}
+		all->plr->x += STEP * sin(all->plr->dir);
+		all->plr->y -= STEP * cos(all->plr->dir);
+	}
+	else if (keycode == D && 
+	(all->map[(int)((all->plr->y + STEP * cos(all->plr->dir)) / SCALE)]
+	[(int) ((all->plr->x - STEP * sin(all->plr->dir)) /  SCALE)] != '1'))
+	{
+		all->plr->x -=  STEP * sin(all->plr->dir);
+		all->plr->y += STEP * cos(all->plr->dir);
 	}
 	else if (keycode == LEFT)
-		all_st->plr->dir -= 0.188;
+		all->plr->dir -= 0.188;//maybe pla a
 	else if (keycode == RIGHT)
-		all_st->plr->dir  += 0.188;
-	if (all_st->plr->dir > M_PI + M_PI)
-		all_st->plr->dir = all_st->plr->dir - (M_PI + M_PI);
-	ft_cast_rays(all_st);
-	// int	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, vall_st->win->img);
-	mlx_put_image_to_window(all_st->win->mlx, all_st->win->win, all_st->win->img, 0, 0);
-	mlx_do_sync(all_st->win->mlx);
-
-	// printf("%s%f\n","x = ", all_st->plr->x);
-	// printf("%s%f\n","y = ", all_st->plr->y);
-		// paint_square(all_st->win->mlx, all_st->plr->x + 1, all_st->plr->y + 1, BLUE);
+		all->plr->dir  += 0.188;
+	if (all->plr->dir > M_PI + M_PI)
+		all->plr->dir = all->plr->dir - (M_PI + M_PI);
+	ft_cast_rays(all);
+	pint_sprite(all);//-------------------------------
+	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
+	mlx_do_sync(all->win->mlx);
 	return (0);
 }
 
+// //find_player
+int count_sprite(t_all *all_st)
+{
+	int	i;
+	int	j;
+	int	count;
+	
+	count = 0;
+	i = 0;
+	j = 0;
+	while (all_st->map[j])
+	{
+		while (all_st->map[j][i])
+		{
+			if (all_st->map[j][i]  == '2') 
+			{
+				count++;
+			}
+			i++;
+		}
+		i = 0;
+		j++;
+	}
+	return (count);
+}
+
+// char *find_sprite(char sprites[i],i);
+
+
+void fill_sprite(t_all *all_st,int count)
+{
+	int	j;
+	t_sprite *sprites;
+	int i;
+	int a;
+	
+	sprites = (t_sprite *)malloc(sizeof(t_sprite) * count);
+	all_st->sprites = sprites;
+	i = 0;
+	j = 0;
+	a = 0;
+	// all_st->sprites = malloc(sizeof(t_sprite) * count);
+	while (all_st->map[j])
+	{
+		while (all_st->map[j][i])
+		{
+			if (all_st->map[j][i]  == '2') 
+			{
+				all_st->sprites[a].x = (float)i * SCALE;
+				all_st->sprites[a].y =  (float)j * SCALE;
+				all_st->sprites[a].dir =  0;
+				// // printf("%d\n",count);
+				printf("%f\n",all_st->sprites[a].x);
+				printf("%f\n",all_st->sprites[a].y);
+				// paint_square(all_st->win,all_st->sprites[a].x,all_st->sprites[a].y, 0xFF0000);
+				a++;
+			}
+			i++;
+		}
+		i = 0;
+		j++;
+	}
+	// while (++i < count)
+	// {
+		
+	// }
+	// pl_st->x = x + (SCALE / 2);
+	// pl_st->y = y + (SCALE / 2);
+	// pl_st->dir = 0;
+} 
+
 int main(int argc, char **argv)
 {	
-	(void) argc;
+	(void) argc;	
 	(void) argv;//поменять
 	t_win mlx_st;
 	t_plr pl_st;
 	t_all all_st;
 	int i;
+	
 	i = 0;
 	t_textures *texture;
 	while (i < 5)
@@ -291,43 +366,30 @@ int main(int argc, char **argv)
 		all_st.textures[i] = texture;
 		i++;
 	}
-
-	// textures_st = (t_textures *)malloc(sizeof(textures_st) * 5);
-	//all_st.textures = textures_st;
 	all_st.win = &mlx_st;
 	all_st.plr = &pl_st;	
-	// struct_texture(all_st,);
-	// char *str = "./../img/colorstone.xpm";
-	// printf("%p",all_st.textures->linc);
-	all_st.textures[0]->linc = "./../img/colorstone.xpm";
-	all_st.textures[1]->linc = "./../img/redbrick.xpm";
-	all_st.textures[2]->linc = "./../img/greystone.xpm";
-	all_st.textures[3]->linc = "./../img/wood.xpm";
-	all_st.textures[4]->linc = "./../img/pillar.xpm";
-
-	// all_st.textures = &textures_st;
-	fill_struct(&mlx_st,&all_st);
-	if ((all_st.map = parcer("map")) == NULL)//поменять
-	{ 
-		ft_putstr_fd("error",1);
+	all_st.textures[0]->linc = "./img/colorstone.xpm";//переместить в парсер
+	all_st.textures[1]->linc = "./img/redbrick.xpm";
+	all_st.textures[2]->linc = "./img/greystone.xpm";
+	all_st.textures[3]->linc = "./img/wood.xpm";
+	all_st.textures[4]->linc = "./img/pillar.xpm";
+	fill_struct(&mlx_st,&all_st);//может быть тоже
+	if ((all_st.map = parcer("./map/cub3d.cub")) == NULL)//поменять на argv
+	{
+		strerror(24);
+		perror("");
 		exit(0);
-		// strerror(24)
-		// perror("");
 	}
 	// all_st.map = map;
 	// paint_map(&pl_st,&mlx_st,map, &all_st);
 	check_map(&all_st);
+	// printf("%d\n",count_sprite(&all_st));
 	ft_cast_rays(&all_st);
+	fill_sprite(&all_st,count_sprite(&all_st));
 	mlx_do_sync(all_st.win->mlx);
 	mlx_put_image_to_window(all_st.win->mlx, all_st.win->win, all_st.win->img, 0, 0);
-	// mlx_hook(mlx_st.win,  2, 1L<<0, hook, &all_st);
-	// mlx_hook(&mlx_st,2 , (1L<<0));
-	// //----------------------------------------------------------------
-	// printf("%s\n",map[0]);  
-	// printf("%s\n",map[1]);
-	// printf("%s\n",map[2]);
-	// //----------------------------------------------------------------
 	mlx_hook(all_st.win->win,  2, 1L<<0, hook, &all_st);
+	
 	mlx_loop(all_st.win->mlx);
 	return (0);
 }

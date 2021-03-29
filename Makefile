@@ -1,38 +1,54 @@
-NAME = Cub3D
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: atweek <atweek@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/03/28 15:37:47 by atweek            #+#    #+#              #
+#    Updated: 2021/03/28 20:00:47 by atweek           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-CC = gcc
+NAME = cub3D
 
-CFLAGS = -Wall -Wextra -Werror -I. -Os -g
+MAP = map/cub3d.cub
 
 SRC = src/main3D.c src/parcer.c
 
-HEADER = src/cub.h
+SRCO = $(SRC:.c=.o)
 
-OBJ = $(SRC:.c=.o)
+FLAGS = -g  -Wall -Wextra -Werror
 
-%.o:%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(HEADER)
-	make -C libft/
-	gcc  {SRC} {CFLAGS} libft/libft.a libmlx.dylib -framework OpenGL -framework Appkit 
+%.o: %.c $(HEADER)
+	gcc $(FLAGS) -c $< -o $@ 
+
+$(NAME) : $(SRCO) 
+	rm -rf $(NAME)
+	make -C ./libft
+	make -C ./minilibx_mms_20200219
+	cp ./minilibx_mms_20200219/libmlx.dylib ./
+	gcc $(FLAGS) $(SRCO) libmlx.dylib -framework OpenGL -framework AppKit $(LIBFT) -o $(NAME)
+
+run : all	
+	./$(NAME) $(MAP)
+
+save : all	
+	./$(NAME) $(MAP) --save
 
 clean:
-	rm -f $(OBJ)
-	make clean -C libft/
+	rm -f $(SRCO)
+	make clean -C ./libft 
+	make clean -C ./minilibx_mms_20200219
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C libft/
+	make fclean -C ./libft
 
 re: fclean all
 
-norm:
-	norminette $(SRC) $(HEADER) libft/
-
-run:
-	./{NAME}
-
-.PHONY: all clean fclean re norme
+.PHONY: all clean fclean re
