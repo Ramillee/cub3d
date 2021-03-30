@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/29 17:32:53 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/30 13:01:59 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@
 # define RED 0x00FF0000
 # define GREEN 0x0000FF00
 # define BLUE 0x000000FF
-# define W 13
-# define S 1
-# define D 2
-# define A 0
-# define UP 126
-# define DOWN 125
-# define LEFT 123
-# define RIGHT 124
+// # define W 13
+// # define S 1
+// # define D 2
+// # define A 0
+// # define UP 126
+// # define DOWN 125
+// # define LEFT 123
+// # define RIGHT 124
 # define STEP 15
-# define WIGHT 1920
-# define HEIGHT 1080
+# define WIGHT 920
+# define HEIGHT 640
 // # define RAY_STEP 
 typedef struct	s_win
 {

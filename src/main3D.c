@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/29 17:46:36 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/30 15:05:26 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,25 +217,37 @@ void  check_map(t_all *all_st)
 	
 }
 
-int paint_sprite(t_all *all_st)
-{
-	int a;
-	int count;
+// int paint_sprite(t_all *all_st)
+// {
+// 	int a;
+// 	int count;
 
-	a = -1;
-	count = count_sprite(all_st);
-	while (++a < count)
-	{
-		all_st->sprites[a].dir = atan2(all_st->sprites[a].y - all_st->plr->y, all_st->sprites[a].x - all_st->plr->x);
-		all_st->sprites[a].dist = sqrt(pow(all_st->sprites[a].x - all_st->plr->x,2) + pow(all_st->sprites[a].y - all_st->plr->y,2));
-		all_st->sprites[a].h_offset = (all_st->sprites[a].dir - player.a)*(fb.w/2)/(player.fov) + (fb.w/2)/2 - sprite_screen_size/2;
-    	all_st->sprites[a].v_offset = fb.h/2 - sprite_screen_size/2;
-	}
+// 	a = -1;
+// 	count = count_sprite(all_st);
+// 	while (++a < count)
+// 	{
+// 		all_st->sprites[a].dir = atan2(all_st->sprites[a].y - all_st->plr->y, all_st->sprites[a].x - all_st->plr->x);
+// 		all_st->sprites[a].dist = sqrt(pow(all_st->sprites[a].x - all_st->plr->x,2) + pow(all_st->sprites[a].y - all_st->plr->y,2));
+// 		all_st->sprites[a].h_offset = (all_st->sprites[a].dir - player.a)*(fb.w/2)/(player.fov) + (fb.w/2)/2 - sprite_screen_size/2;
+//     	all_st->sprites[a].v_offset = fb.h/2 - sprite_screen_size/2;
+// 	}
 	
+// }
+
+int close_window(t_all *all_st)
+{
+	//free
+	while (all_st->map)
+		free(all_st->map++);
+	printf("1\n");
+	exit(0);
+	// return (0);
 }
+
 
 int		hook(int keycode, t_all *all)
 {
+	printf("%d\n",keycode);
 	if (keycode == W && 
 		(all->map[(int)((all->plr->y + STEP * sin(all->plr->dir)) / SCALE)]
 		[(int) ((all->plr->x + STEP * cos(all->plr->dir)) /  SCALE)] != '1'))
@@ -269,85 +281,88 @@ int		hook(int keycode, t_all *all)
 		all->plr->dir -= 0.188;//maybe pla a
 	else if (keycode == RIGHT)
 		all->plr->dir  += 0.188;
+	else if (keycode == ESC)
+		close_window(all);
 	if (all->plr->dir > M_PI + M_PI)
 		all->plr->dir = all->plr->dir - (M_PI + M_PI);
 	ft_cast_rays(all);
-	pint_sprite(all);//-------------------------------
+	// pint_sprite(all);//-------------------------------
 	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
 	mlx_do_sync(all->win->mlx);
 	return (0);
 }
 
 // //find_player
-int count_sprite(t_all *all_st)
-{
-	int	i;
-	int	j;
-	int	count;
+// int count_sprite(t_all *all_st)
+// {
+// 	int	i;
+// 	int	j;
+// 	int	count;
 	
-	count = 0;
-	i = 0;
-	j = 0;
-	while (all_st->map[j])
-	{
-		while (all_st->map[j][i])
-		{
-			if (all_st->map[j][i]  == '2') 
-			{
-				count++;
-			}
-			i++;
-		}
-		i = 0;
-		j++;
-	}
-	return (count);
-}
+// 	count = 0;
+// 	i = 0;
+// 	j = 0;
+// 	while (all_st->map[j])
+// 	{
+// 		while (all_st->map[j][i])
+// 		{
+// 			if (all_st->map[j][i]  == '2') 
+// 			{
+// 				count++;
+// 			}
+// 			i++;
+// 		}
+// 		i = 0;
+// 		j++;
+// 	}
+// 	return (count);
+// }
 
-// char *find_sprite(char sprites[i],i);
+// // char *find_sprite(char sprites[i],i);
 
 
-void fill_sprite(t_all *all_st,int count)
-{
-	int	j;
-	t_sprite *sprites;
-	int i;
-	int a;
+// void fill_sprite(t_all *all_st,int count)
+// {
+// 	int	j;
+// 	t_sprite *sprites;
+// 	int i;
+// 	int a;
 	
-	sprites = (t_sprite *)malloc(sizeof(t_sprite) * count);
-	all_st->sprites = sprites;
-	i = 0;
-	j = 0;
-	a = 0;
-	// all_st->sprites = malloc(sizeof(t_sprite) * count);
-	while (all_st->map[j])
-	{
-		while (all_st->map[j][i])
-		{
-			if (all_st->map[j][i]  == '2') 
-			{
-				all_st->sprites[a].x = (float)i * SCALE;
-				all_st->sprites[a].y =  (float)j * SCALE;
-				all_st->sprites[a].dir =  0;
-				// // printf("%d\n",count);
-				printf("%f\n",all_st->sprites[a].x);
-				printf("%f\n",all_st->sprites[a].y);
-				// paint_square(all_st->win,all_st->sprites[a].x,all_st->sprites[a].y, 0xFF0000);
-				a++;
-			}
-			i++;
-		}
-		i = 0;
-		j++;
-	}
-	// while (++i < count)
-	// {
+// 	sprites = (t_sprite *)malloc(sizeof(t_sprite) * count);
+// 	all_st->sprites = sprites;
+// 	i = 0;
+// 	j = 0;
+// 	a = 0;
+// 	// all_st->sprites = malloc(sizeof(t_sprite) * count);
+// 	while (all_st->map[j])
+// 	{
+// 		while (all_st->map[j][i])
+// 		{
+// 			if (all_st->map[j][i]  == '2') 
+// 			{
+// 				all_st->sprites[a].x = (float)i * SCALE;
+// 				all_st->sprites[a].y =  (float)j * SCALE;
+// 				all_st->sprites[a].dir =  0;
+// 				// // printf("%d\n",count);
+// 				printf("%f\n",all_st->sprites[a].x);
+// 				printf("%f\n",all_st->sprites[a].y);
+// 				// paint_square(all_st->win,all_st->sprites[a].x,all_st->sprites[a].y, 0xFF0000);
+// 				a++;
+// 			}
+// 			i++;
+// 		}
+// 		i = 0;
+// 		j++;
+// 	}
+// 	// while (++i < count)
+// 	// {
 		
-	// }
-	// pl_st->x = x + (SCALE / 2);
-	// pl_st->y = y + (SCALE / 2);
-	// pl_st->dir = 0;
-} 
+// 	// }
+// 	// pl_st->x = x + (SCALE / 2);
+// 	// pl_st->y = y + (SCALE / 2);
+// 	// pl_st->dir = 0;
+// } 
+
 
 int main(int argc, char **argv)
 {	
@@ -385,11 +400,11 @@ int main(int argc, char **argv)
 	check_map(&all_st);
 	// printf("%d\n",count_sprite(&all_st));
 	ft_cast_rays(&all_st);
-	fill_sprite(&all_st,count_sprite(&all_st));
+	// fill_sprite(&all_st,count_sprite(&all_st));
 	mlx_do_sync(all_st.win->mlx);
 	mlx_put_image_to_window(all_st.win->mlx, all_st.win->win, all_st.win->img, 0, 0);
-	mlx_hook(all_st.win->win,  2, 1L<<0, hook, &all_st);
-	
+	// mlx_hook(all_st.win->win, 17, 0L, &close_window, &all_st);
+	mlx_hook(all_st.win->win,  2, 1L<<0, &hook, &all_st);
 	mlx_loop(all_st.win->mlx);
 	return (0);
 }
