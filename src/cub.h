@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/30 13:01:59 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/31 21:51:41 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 // # define LEFT 123
 // # define RIGHT 124
 # define STEP 15
-# define WIGHT 920
-# define HEIGHT 640
+# define WIGHT 1920
+# define HEIGHT 1080
 // # define RAY_STEP 
 typedef struct	s_win
 {
@@ -71,6 +71,7 @@ typedef struct	s_sprite
 	float		dist;
 	float		h_offset;
 	float		v_offset;
+	float		screen_size;
 }				t_sprite;
 
 typedef struct s_textures
@@ -107,6 +108,16 @@ typedef struct	s_all
 }				  t_all;
 
 char	**parcer(char *argv);
+void	math_sprite(t_all *all_st,int count);
+int		count_sprite(t_all *all_st);
+void	fill_sprite(t_all *all_st,int count);
+void	paint_sprites(t_all *all_st);
+void	ft_cast_rays(t_all *all);
+int		close_window(t_all *all_st);
+int		hook(int keycode, t_all *all);
+int		my_mlx_pixel_get(t_all *all_st, int x, int y,int i);
+void	my_mlx_pixel_put(t_win *data, int x, int y, int color);
+void	paint_line(t_all *all, t_ray *ray_st,int x);
 
 // all.tex1->height 
 #endif
