@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/31 21:51:41 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/01 08:10:41 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct	s_ray
 {
 	double old_x;
 	double	old_y;
-	double ray_x;
-	double ray_y;
+	double x;
+	double y;
 	double ray_len;
 	double ray_step;
 }				t_ray;
@@ -104,20 +104,27 @@ typedef struct	s_all
 	char		**map;
 	// t_sprite 
 	t_sprite	*sprites;
+	int			count_sprite;
 	
 }				  t_all;
 
 char	**parcer(char *argv);
 void	math_sprite(t_all *all_st,int count);
 int		count_sprite(t_all *all_st);
-void	fill_sprite(t_all *all_st,int count);
-void	paint_sprites(t_all *all_st);
+void	paint_sprites(t_all *all_st,int a);
+void	fill_sprite(t_all *all_st);
+// void	paint_sprites(t_all *all_st);
 void	ft_cast_rays(t_all *all);
 int		close_window(t_all *all_st);
 int		hook(int keycode, t_all *all);
 int		my_mlx_pixel_get(t_all *all_st, int x, int y,int i);
 void	my_mlx_pixel_put(t_win *data, int x, int y, int color);
-void	paint_line(t_all *all, t_ray *ray_st,int x);
+void	paint_line(t_all *all,int x);
+int		init_struct(t_all *all_st);
+int		init_sprite(t_all *all_st,int count);
+
+
+
 
 // all.tex1->height 
 #endif

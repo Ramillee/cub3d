@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:21:10 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/31 17:53:26 by atweek           ###   ########.fr       */
+/*   Updated: 2021/03/31 23:14:22 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,20 @@ void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
 }
 
 
-void paint_line(t_all *all, t_ray *ray_st,int x)
+void paint_line(t_all *all,int x)
 {
 	int y;
 	double wall;
 	double sky;
 	double hitx;
 	double hity;
-	 int color;
+	int color;
 	static int i; 
 
-	hitx = (ray_st->ray_x / 32) - (int)(ray_st->ray_x / 32);
-	hity = (ray_st->ray_y / 32)	 - (int)(ray_st->ray_y / 32);
+	hitx = (all->plr->ray->x / 32) - (int)(all->plr->ray->x / 32);
+	hity = (all->plr->ray->y / 32)	 - (int)(all->plr->ray->y / 32);
 	y = 0;
-	wall = (HEIGHT / ray_st->ray_len) * 32;
+	wall = (HEIGHT / all->plr->ray->ray_len) * 32;
 	sky = HEIGHT / 2 - wall / 2;
 	int j = 0;
 
@@ -52,13 +52,13 @@ void paint_line(t_all *all, t_ray *ray_st,int x)
 			my_mlx_pixel_put(all->win, x, y++, 0xFFFFFF);
 	while (y < wall + sky && y < HEIGHT - 1)
 	{
-		if (((int)  ray_st->ray_x == (int) ray_st->old_x) && (int) ray_st->old_y - (int) ray_st->ray_y > 0)
+		if (((int)  all->plr->ray->x == (int) all->plr->ray->old_x) && (int) all->plr->ray->old_y - (int) all->plr->ray->y > 0)
 			i = 0;
-		else if (((int) ray_st->ray_x == (int) ray_st->old_x) && (int) ray_st->old_y - (int) ray_st->ray_y < 0)
+		else if (((int) all->plr->ray->x == (int) all->plr->ray->old_x) && (int) all->plr->ray->old_y - (int) all->plr->ray->y < 0)
 			i = 1;
-		else if (((int) ray_st->ray_y == (int) ray_st->old_y) && (int) ray_st->old_x - (int) ray_st->ray_x < 0)
+		else if (((int) all->plr->ray->y == (int) all->plr->ray->old_y) && (int) all->plr->ray->old_x - (int) all->plr->ray->x < 0)
 			i = 2;
-		else if (((int) ray_st->ray_y == (int) ray_st->old_y) && (int) ray_st->old_x - (int) ray_st->ray_x > 0)
+		else if (((int) all->plr->ray->y == (int) all->plr->ray->old_y) && (int) all->plr->ray->old_x - (int) all->plr->ray->x > 0)
 			i = 3;
 		if (i == 0 || i == 1)
 			color = my_mlx_pixel_get(all, hitx * 64 , j * 64 / wall ,i);
