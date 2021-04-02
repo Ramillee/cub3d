@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:32:02 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/19 20:35:26 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/02 21:28:15 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	**parcer(char *argv)
 			return (NULL);
 		if ((temp_str = ft_strjoin(temp_str, "\n"))== NULL)
 			return (NULL);
+		free(line);
+		line = NULL;
 	}
 	if ((temp_str = ft_strjoin(temp_str, line)) == NULL)
 		return (NULL);

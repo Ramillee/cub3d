@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:18:11 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/01 04:07:05 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/02 19:10:17 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ void	ft_cast_rays(t_all *all)
 		all->plr->ray->ray_len = sqrt(pow(all->plr->ray->x - all->plr->x,2) + pow(all->plr->ray->y - all->plr->y,2)) * cos(all->plr->dir - start);
 		paint_line(all,x++);
 		// fill_sprite(all);
-		math_sprite(all,all->count_sprite);
 
 
 		// while (x < WIGHT)
 			// paint_line(all,sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)),x++);
 		// printf("%f\n",sqrt(pow(ray.x - all->plr->x,2) + pow(ray.y - all->plr->y,2)));
 	}
+	math_sprite(all,all->count_sprite);
+
 	//
 }

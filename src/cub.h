@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/01 08:10:41 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/02 19:59:12 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,6 @@ typedef struct s_textures
 	int		bpp;
 	int		line_l;
 	int		en;
-
-	// char	*linc_s;
-	// void	*img_s;
-	// int		height_s;
-	// int		weight_s;
-	// void	*addr_s;
-	// int		bpp_s;
-	// int		line_l_s;
-	// int		en_s;
 }				t_textures;
 
 typedef struct	s_all

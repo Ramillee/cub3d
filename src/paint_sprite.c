@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:09:30 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/01 08:58:06 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/02 21:26:17 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void paint_sprites(t_all *all_st,int a)
 {
 	int i;
 	int j;
-
+	float wall = (HEIGHT / all_st->sprites->dist) * 32;
+	
 	i = 0;
 	while (i < all_st->sprites[a].screen_size)
 	{
@@ -33,14 +34,14 @@ void paint_sprites(t_all *all_st,int a)
 				j++;
 				continue;
 			}
-			my_mlx_pixel_put(all_st->win, all_st->sprites[a].h_offset + i,all_st->sprites[a].v_offset  + j,0xFF0000);
+			my_mlx_pixel_put(all_st->win, all_st->sprites[a].h_offset + i,
+			all_st->sprites[a].v_offset  + j,
+			my_mlx_pixel_get(all_st,i * 64 / wall,j * 64 / wall, 4));
 			j++;
+
 		}
 		i++;
 	}
-		printf("222\n");
-
-	
 }
 
 int count_sprite(t_all *all_st)
@@ -65,37 +66,39 @@ int count_sprite(t_all *all_st)
 		i = 0;
 		j++;
 	}
+	
 	return (count);
 }
 
-void fill_sprite(t_all *all_st)
-{
-	int	j;
-	int i;
-	int a;
+// void fill_sprite(t_all *all_st)
+// {
+// 	int	j;
+// 	int i;
+// 	int a;
 	
 
-	i = 0;
-	j = 0;
-	a = 0;
-	while (all_st->map[j])
-	{
-		while (all_st->map[j][i])
-		{
-			if (all_st->map[j][i]  == '2') 
-			{
-				all_st->sprites[a].x = (float)i * SCALE;
-				all_st->sprites[a].y =  (float)j * SCALE;
-				all_st->sprites[a].dir =  0;
-				math_sprite(all_st,all_st->count_sprite);
-				a++;
-			}
-			i++;
-		}
-		i = 0;
-		j++;
-	}
-} 
+// 	i = 0;
+// 	j = 0;
+// 	a = 0;
+// 	while (all_st->map[j])
+// 	{
+// 		while (all_st->map[j][i])
+// 		{
+// 			if (all_st->map[j][i]  == '2') 
+// 			{
+// 				all_st->sprites[a].x = (float)i * SCALE;
+// 				all_st->sprites[a].y =  (float)j * SCALE;
+// 				all_st->sprites[a].dir =  0;
+// 				math_sprite(all_st,all_st->count_sprite);
+// 				a++;
+// 			}
+// 			i++;
+// 		}
+// 		i = 0;
+// 		j++;
+// 	}
+// 	// printf("%d\n",all_st->count_sprite);
+// } 
 
 
 void math_sprite(t_all *all_st,int count)
@@ -117,7 +120,7 @@ void math_sprite(t_all *all_st,int count)
 			all_st->sprites[a].dir += 2*M_PI;
 		all_st->sprites[a].h_offset = (all_st->sprites[a].dir - all_st->plr->dir)*(WIGHT)/(M_PI / 3) + (WIGHT)/2 - all_st->sprites[a].screen_size;
     	all_st->sprites[a].v_offset = HEIGHT / 2- all_st->sprites[a].screen_size;
-		printf("111\n");
+		// printf("111\n");
 		paint_sprites(all_st,a);
 
 	}

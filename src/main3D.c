@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/01 04:04:41 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/02 19:36:24 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 	if ((init_struct(all_st) == -1))
 		exit(0);//free memory
 	int i;
-	printf("\n----->%lu\n",sizeof(t_win));
+	// printf("\n----->%lu\n",sizeof(t_win));
 	i = 0;
 	all_st->textures[0]->linc = "./img/colorstone.xpm";//переместить в парсер
 	all_st->textures[1]->linc = "./img/redbrick.xpm";
@@ -107,15 +107,16 @@ int main(int argc, char **argv)
 	// all_st.map = map;
 	// paint_map(&pl_st,&mlx_st,map, &all_st);
 	check_map(all_st);
-	if (init_sprite(all_st,count_sprite(all_st)) == -1)
+	all_st->count_sprite = count_sprite(all_st);
+	if (init_sprite(all_st,all_st->count_sprite) == -1)
 		exit(0);//free memory
-	fill_sprite(all_st);
+	// fill_sprite(all_st);
 	// printf("%d\n",count_sprite(&all_st));
-	math_sprite(all_st,all_st->count_sprite);
+	// math_sprite(all_st,all_st->count_sprite);							
 	ft_cast_rays(all_st);
 	mlx_do_sync(all_st->win->mlx);
 	mlx_put_image_to_window(all_st->win->mlx, all_st->win->win, all_st->win->img, 0, 0);
-	// mlx_hook(all_st.win->win, 17, 0L, &close_window, &all_st);
+	// mlx_hook(all_st.win->win, 17, 0L, 4&close_window, &all_st);
 	mlx_hook(all_st->win->win,  2, 1L<<0, &hook, all_st);
 	mlx_loop(all_st->win->mlx);
 	return (0);
