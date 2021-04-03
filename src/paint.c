@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:21:10 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/02 21:21:34 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/03 12:10:25 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 int    my_mlx_pixel_get(t_all *all_st, int x, int y,int i)
 {
 	char    *dst;
-	dst = all_st->textures[i]->addr + (y * all_st->textures[i]->line_l + x
-	* (all_st->textures[i]->bpp / 8));
-	return (*(unsigned int*)dst);
+	if(dst = all_st->textures[i]->addr + (y * all_st->textures[i]->line_l + x
+	* (all_st->textures[i]->bpp / 8)))
+		return (*(unsigned int*)dst);
+	else
+	{
+		printf("QQQ");
+		return (-1);
+	}
 }
 
 void	my_mlx_pixel_put(t_win *data, int x, int y, int color)

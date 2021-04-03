@@ -6,7 +6,7 @@
 #    By: atweek <atweek@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/28 15:37:47 by atweek            #+#    #+#              #
-#    Updated: 2021/04/02 19:35:45 by atweek           ###   ########.fr        #
+#    Updated: 2021/04/03 11:21:35 by atweek           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,12 @@ NAME = cub3D
 
 MAP = map/cub3d.cub
 
-SRC = src/main3D.c src/parcer.c src/paint_sprite.c src/hook.c src/paint.c src/rays.c src/init.c
+SRC = src/main3D.c src/parcer.c src/paint_sprite.c src/hook.c src/paint.c src/rays.c src/init.c \
+		src/free_all.c
 
 SRCO = $(SRC:.c=.o)
 
-FLAGS = -g  -Wall -Wextra -Werror
+FLAGS = -g  #-Wall -Wextra -Werror
 
 MAC_BUTTONS = -D W=13 -D S=1 -D D=2 -D A=0 -D LEFT=123 -D RIGHT=124 -D ESC=53
 

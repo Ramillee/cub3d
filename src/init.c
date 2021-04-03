@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 22:01:31 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/02 19:01:58 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/03 11:09:40 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,17 @@ int	init_struct(t_all *all_st)
 	return (1);
 }
 
-int init_sprite(t_all *all_st,int count)
+int init_sprite(t_all *all_st)
 {
-	int i;
-	int j;
-	int a;
-	t_sprite *sprites;
+	int 		i;
+	int 		j;
+	t_sprite	*sprites;
+	int			count;
+	int			a;
 	
-	// count = count_sprite(all_st);
+	count = all_st->count_sprite;
 	i = 0;
 	j = 0;
-	a = 0;
 	sprites = ((t_sprite *)ft_calloc(1,sizeof(t_sprite *) * count));
 	all_st->sprites = sprites;
 	while (all_st->map[j])
@@ -62,7 +62,6 @@ int init_sprite(t_all *all_st,int count)
 				all_st->sprites[a].x = (float)i * SCALE;
 				all_st->sprites[a].y =  (float)j * SCALE;
 				all_st->sprites[a].dir =  0;
-				// math_sprite(all_st,count);
 				a++;
 			}
 			i++;

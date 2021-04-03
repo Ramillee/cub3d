@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/02 19:59:12 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/03 11:43:01 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,10 @@ int		close_window(t_all *all_st);
 int		hook(int keycode, t_all *all);
 int		my_mlx_pixel_get(t_all *all_st, int x, int y,int i);
 void	my_mlx_pixel_put(t_win *data, int x, int y, int color);
-void	paint_line(t_all *all,int x);
+void	paint_line(t_all *all,int a);
 int		init_struct(t_all *all_st);
-int		init_sprite(t_all *all_st,int count);
-
+int		init_sprite(t_all *all_st);
+void	free_all(t_all *all);
 
 
 

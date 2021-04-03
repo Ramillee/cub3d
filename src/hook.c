@@ -6,22 +6,22 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:19:22 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/31 17:54:18 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/03 11:20:24 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int close_window(t_all *all_st)
-{
-	//free
-	// while (all_st->map)
-	// 	free(all_st->map++);
-	// printf("end of the game\n");
-	mlx_destroy_image(all_st->win->mlx,all_st->win->img);
-	exit(0);
-	return (0);
-}
+// int close_window(t_all *all_st)
+// {
+// 	//free
+// 	// while (all_st->map)
+// 	// 	free(all_st->map++);
+// 	// printf("end of the game\n");
+// 	mlx_destroy_image(all_st->win->mlx,all_st->win->img);
+// 	exit(0);
+// 	return (0);
+// }
 
 
 int		hook(int keycode, t_all *all)
@@ -61,7 +61,7 @@ int		hook(int keycode, t_all *all)
 	else if (keycode == RIGHT)
 		all->plr->dir  += 0.188;
 	else if (keycode == ESC)
-		close_window(all);
+		free_all(all);
 	if (all->plr->dir > M_PI + M_PI)
 		all->plr->dir = all->plr->dir - (M_PI + M_PI);
 	ft_cast_rays(all);
