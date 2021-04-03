@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:09:30 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/03 12:08:27 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/03 22:02:13 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void paint_sprites(t_all *all_st,int a)
 {
 	int i;
 	int j;
-	float wall = (HEIGHT / all_st->sprites[a].dist) * 32;
+	float wall = (HEIGHT / all_st->sprites[a].dist) * SCALE;
 	int color;
 	
 	i = 0;
@@ -30,16 +30,15 @@ void paint_sprites(t_all *all_st,int a)
 		j = 0;
 		while (j < all_st->sprites[a].screen_size)
 		{
-			if (all_st->sprites[a].v_offset + j >= HEIGHT || all_st->sprites[a].v_offset + j < 0)
-			{
-				j++;
-				continue;
-			}
-			if ((color = my_mlx_pixel_get(all_st,i * 64 / wall,j * 64 / wall, 4)) != -1)
+			// if (all_st->sprites[a].v_offset + j >= HEIGHT || all_st->sprites[a].v_offset + j < 0)
+			// {
+			// 	j++;
+			// 	continue;
+			// }
+			if ((color = my_mlx_pixel_get(all_st,i * SCALE ,j * SCALE/ wall, 4)) != 0)
 				my_mlx_pixel_put(all_st->win, all_st->sprites[a].h_offset + i,
-				all_st->sprites[a].v_offset  + j + wall,color);
+				all_st->sprites[a].v_offset  + j + (wall / 2),color);
 			j++;
-
 		}
 		i++;
 	}
@@ -113,7 +112,7 @@ void math_sprite(t_all *all_st,int count)
 	while (a < count)
 	{
 		all_st->sprites[a].dist = sqrt(pow(all_st->plr->x - all_st->sprites[a].x,2) + pow(all_st->plr->y - all_st->sprites[a].y,2));
-		all_st->sprites[a].screen_size = (HEIGHT / all_st->sprites[a].dist) * 32;
+		all_st->sprites[a].screen_size = (HEIGHT / all_st->sprites[a].dist) * SCALE;
 		all_st->sprites[a].dir = atan2(all_st->sprites[a].y - all_st->plr->y, all_st->sprites[a].x - all_st->plr->x);
 		while (all_st->sprites[a].dir - all_st->plr->dir>  M_PI)
 			all_st->sprites[a].dir -= 2*M_PI; 

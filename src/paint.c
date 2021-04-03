@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:21:10 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/03 12:10:25 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/03 21:27:35 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 int    my_mlx_pixel_get(t_all *all_st, int x, int y,int i)
 {
 	char    *dst;
-	if(dst = all_st->textures[i]->addr + (y * all_st->textures[i]->line_l + x
-	* (all_st->textures[i]->bpp / 8)))
-		return (*(unsigned int*)dst);
-	else
-	{
-		printf("QQQ");
-		return (-1);
-	}
+	dst = all_st->textures[i]->addr + (y * all_st->textures[i]->line_l + x
+	* (all_st->textures[i]->bpp / 8));
+		
+	return (*(unsigned int*)dst);
+	
 }
 
 void	my_mlx_pixel_put(t_win *data, int x, int y, int color)
 {
     char    *dst;
 
-    dst = data->addr + (y * data->line_l + x * (data->bpp / 8));
-    *(unsigned int*)dst = color;
+	if (x > 0 && y > 0 && y < HEIGHT && x < WIGHT)
+	{
+		dst = data->addr + (y * data->line_l + x * (data->bpp / 8));
+		*(unsigned int*)dst = color;
+	}
 }
 
 
@@ -44,10 +44,10 @@ void paint_line(t_all *all,int x)
 	int color;
 	static int i; 
 
-	hitx = (all->plr->ray->x / 32) - (int)(all->plr->ray->x / 32);
-	hity = (all->plr->ray->y / 32)	 - (int)(all->plr->ray->y / 32);
+	hitx = (all->plr->ray->x / SCALE) - (int)(all->plr->ray->x / SCALE);
+	hity = (all->plr->ray->y / SCALE)	 - (int)(all->plr->ray->y / SCALE);
 	y = 0;
-	wall = (HEIGHT / all->plr->ray->ray_len) * 32;
+	wall = (HEIGHT / all->plr->ray->ray_len) * SCALE;
 	sky = HEIGHT / 2 - wall / 2;
 	int j = 0;
 
@@ -67,9 +67,9 @@ void paint_line(t_all *all,int x)
 		else if (((int) all->plr->ray->y == (int) all->plr->ray->old_y) && (int) all->plr->ray->old_x - (int) all->plr->ray->x > 0)
 			i = 3;
 		if (i == 0 || i == 1)
-			color = my_mlx_pixel_get(all, hitx * 64 , j * 64 / wall ,i);
+			color = my_mlx_pixel_get(all, hitx * SCALE , j * SCALE / wall ,i);
 		else
-			color = my_mlx_pixel_get(all, hity * 64 , j * 64 / wall ,i);
+			color = my_mlx_pixel_get(all, hity * SCALE , j * SCALE / wall ,i);
 		my_mlx_pixel_put(all->win, x, y++, color);
 		j++;
 	}

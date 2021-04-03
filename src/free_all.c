@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 11:10:55 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/03 11:18:34 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/03 17:03:03 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void free_all(t_all *all)
     while (++i < 5)
         free(all->textures[i]);
     i = -1;
-    while (++i < count)
-        free(all->sprites);
+    // while (++i < count)
+    //     free(all->sprites);
     free(all);
 	exit(0);
 }

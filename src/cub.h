@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/03 11:43:01 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/03 21:22:31 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 // # define DOWN 125
 // # define LEFT 123
 // # define RIGHT 124
-# define STEP 15
+# define STEP 5
 # define WIGHT 1920
 # define HEIGHT 1080
 // # define RAY_STEP 
