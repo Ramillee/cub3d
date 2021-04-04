@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 	if (init_sprite(all_st) == -1)
 		exit(0);//free memory							
 	ft_cast_rays(all_st);
-	mlx_do_sync(all_st->win->mlx);
+//	mlx_do_sync(all_st->win->mlx);
 	mlx_put_image_to_window(all_st->win->mlx, all_st->win->win, all_st->win->img, 0, 0);
 	// mlx_hook(all_st.win->win, 17, 0L, 4&close_window, &all_st);
 	mlx_hook(all_st->win->win,  2, 1L<<0, &hook, all_st);

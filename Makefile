@@ -19,7 +19,7 @@ SRC = src/main3D.c src/parcer.c src/paint_sprite.c src/hook.c src/paint.c src/ra
 
 SRCO = $(SRC:.c=.o)
 
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror -O1
 
 MAC_BUTTONS = -D W=13 -D S=1 -D D=2 -D A=0 -D LEFT=123 -D RIGHT=124 -D ESC=53
 

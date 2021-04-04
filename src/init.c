@@ -60,8 +60,8 @@ int init_sprite(t_all *all_st)
 		{
 			if (all_st->map[j][i]  == '2') 
 			{
-				all_st->sprites[a].x = (float)i * SCALE;
-				all_st->sprites[a].y =  (float)j * SCALE;
+				all_st->sprites[a].x = i * SCALE;
+				all_st->sprites[a].y = j * SCALE;
 				all_st->sprites[a].dir =  0;
 				a++;
 			}

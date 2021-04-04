@@ -66,7 +66,8 @@ int		hook(int keycode, t_all *all)
 		all->plr->dir = all->plr->dir - (M_PI + M_PI);
 	ft_cast_rays(all);
 	// pint_sprite(all);//-------------------------------
-	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
-	mlx_do_sync(all->win->mlx);
+    //	mlx_do_sync(all->win->mlx);
+//	mlx_do_sync(all->win->mlx);
+    mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
 	return (0);
 }
