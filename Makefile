@@ -6,7 +6,7 @@
 #    By: atweek <atweek@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/28 15:37:47 by atweek            #+#    #+#              #
-#    Updated: 2021/04/03 21:45:46 by atweek           ###   ########.fr        #
+#    Updated: 2021/04/04 23:52:56 by atweek           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,11 @@ SRC = src/main3D.c src/parcer.c src/paint_sprite.c src/hook.c src/paint.c src/ra
 
 SRCO = $(SRC:.c=.o)
 
-FLAGS = -g -Wall -Wextra -Werror -O1
+FLAGS = -g -O3 #-Wall -Wextra -Werror -O1
 
 MAC_BUTTONS = -D W=13 -D S=1 -D D=2 -D A=0 -D LEFT=123 -D RIGHT=124 -D ESC=53
 
-LINUX_BUTTONS = -D W=119 -D S=115 -D D=100 -D A=97 -D LEFT=65361 -D RIGHT=65363 -D ESC=65307
+LINUX_BUTTONS = -D W=119 -D S=115 -D D=100 -D A=97 -D LEFT=65361 -D RIGHT=65363 -D ESC=65307 -O3
 
 LIBFT = ./libft/libft.a
 

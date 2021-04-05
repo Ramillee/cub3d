@@ -31,8 +31,8 @@
 // # define LEFT 123
 // # define RIGHT 124
 # define STEP 5
-# define WIGHT 1920
-# define HEIGHT 1080
+# define WIGHT 920
+# define HEIGHT 680
 // # define RAY_STEP 
 typedef struct	s_win
 {
