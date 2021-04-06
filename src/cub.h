@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/03 21:22:31 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/06 01:09:18 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <errno.h>
 # define SCALE 64.0
 # define RED 0x00FF0000
-# define GREEN 0x0000FF00
+# define FLOOR 0x696969
 # define BLUE 0x000000FF
 // # define W 13
 // # define S 1
@@ -31,8 +31,8 @@
 // # define LEFT 123
 // # define RIGHT 124
 # define STEP 5
-# define WIGHT 920
-# define HEIGHT 680
+# define WIGHT 1920
+# define HEIGHT 1080
 // # define RAY_STEP 
 typedef struct	s_win
 {
@@ -114,6 +114,9 @@ void	paint_line(t_all *all,int a);
 int		init_struct(t_all *all_st);
 int		init_sprite(t_all *all_st);
 void	free_all(t_all *all);
+void	sort(t_all *all);
+// void sort(t_all *all)
+
 
 
 

@@ -52,7 +52,7 @@ int init_sprite(t_all *all_st)
 	i = 0;
 	j = 0;
 	a = 0;
-	sprites = ((t_sprite *)ft_calloc(1,sizeof(t_sprite *) * count));
+	sprites = ((t_sprite *)ft_calloc(count,sizeof(t_sprite)));
 	all_st->sprites = sprites;
 	while (all_st->map[j])
 	{
@@ -60,15 +60,20 @@ int init_sprite(t_all *all_st)
 		{
 			if (all_st->map[j][i]  == '2') 
 			{
-				all_st->sprites[a].x = i * SCALE;
-				all_st->sprites[a].y = j * SCALE;
-				all_st->sprites[a].dir =  0;
+				all_st->sprites[a].x = (i + 0.5) * SCALE;
+				all_st->sprites[a].y = (j + 0.5) * SCALE;
+//				printf("x -- %f\n",all_st->sprites[a].x);
+//				printf("y -- %f\n",all_st->sprites[a].y);
+//				all_st->sprites[a].dir =  0;
 				a++;
 			}
 			i++;
 		}
 		i = 0;
 		j++;
+
 	}
+//	printf("%d",count);
+//	all_st->sprites[a] = NULL;
 	return (1);
 }

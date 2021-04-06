@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:21:10 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/03 21:27:35 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/06 03:03:19 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void paint_line(t_all *all,int x)
 		j += fabs(sky);
 	else
 		while (y < sky && y < HEIGHT - 1)
-			my_mlx_pixel_put(all->win, x, y++, 0xFFFFFF);
+			my_mlx_pixel_put(all->win, x, y++, 0x00FFFF);
 	while (y < wall + sky && y < HEIGHT - 1)
 	{
 		if (((int)  all->plr->ray->x == (int) all->plr->ray->old_x) && (int) all->plr->ray->old_y - (int) all->plr->ray->y > 0)
@@ -74,6 +74,6 @@ void paint_line(t_all *all,int x)
 		j++;
 	}
 	while (y < HEIGHT - 1)
-		my_mlx_pixel_put(all->win, x, y++, GREEN);
+		my_mlx_pixel_put(all->win, x, y++, FLOOR);
 	
 }

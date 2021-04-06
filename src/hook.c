@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:19:22 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/03 11:20:24 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/06 00:37:13 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 // 	exit(0);
 // 	return (0);
 // }
-
 
 int		hook(int keycode, t_all *all)
 {
@@ -66,8 +65,8 @@ int		hook(int keycode, t_all *all)
 		all->plr->dir = all->plr->dir - (M_PI + M_PI);
 	ft_cast_rays(all);
 	// pint_sprite(all);//-------------------------------
-    //	mlx_do_sync(all->win->mlx);
 //	mlx_do_sync(all->win->mlx);
+	// mlx_do_sync(all->win->mlx);
     mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
 	return (0);
 }

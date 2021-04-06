@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/03 11:08:18 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/06 00:44:03 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 	all_st->textures[1]->linc = "./img/redbrick.xpm";
 	all_st->textures[2]->linc = "./img/greystone.xpm";
 	all_st->textures[3]->linc = "./img/wood.xpm";
-	all_st->textures[4]->linc = "./img/pillar.xpm";
+	all_st->textures[4]->linc = "./img/bb.xpm";
 	fill_struct(all_st);//может быть тоже
 	if ((all_st->map = parcer("./map/cub3d.cub")) == NULL)//поменять на argv
 	{
@@ -108,10 +108,11 @@ int main(int argc, char **argv)
 	// paint_map(&pl_st,&mlx_st,map, &all_st);
 	check_map(all_st);
 	all_st->count_sprite = count_sprite(all_st);
+//	printf("---> %d\n",all_st->count_sprite);
 	if (init_sprite(all_st) == -1)
 		exit(0);//free memory							
 	ft_cast_rays(all_st);
-//	mlx_do_sync(all_st->win->mlx);
+	// mlx_do_sync(all_st->win->mlx);
 	mlx_put_image_to_window(all_st->win->mlx, all_st->win->win, all_st->win->img, 0, 0);
 	// mlx_hook(all_st.win->win, 17, 0L, 4&close_window, &all_st);
 	mlx_hook(all_st->win->win,  2, 1L<<0, &hook, all_st);
