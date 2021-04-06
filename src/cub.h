@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/06 01:09:18 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/06 03:40:58 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,27 @@ typedef struct s_textures
 	int		en;
 }				t_textures;
 
+typedef struct s_info
+{
+	int			width;
+	int			height;
+	char		*no;
+	char		*so;
+	char 		*we;
+	char		*ea;
+	char 		*s;
+	int			f;
+	int			fr;
+	int			fg;
+	int			fb;
+	int			c;
+	int			cr;
+	int			cg;
+	int			cb;
+
+
+}				t_info;
+
 typedef struct	s_all
 {
 	t_win		*win;
@@ -96,6 +117,8 @@ typedef struct	s_all
 	// t_sprite 
 	t_sprite	*sprites;
 	int			count_sprite;
+	double		*lens;
+	t_info		*info_st;
 	
 }				  t_all;
 
@@ -103,7 +126,7 @@ char	**parcer(char *argv);
 void	math_sprite(t_all *all_st,int count);
 int		count_sprite(t_all *all_st);
 void	paint_sprites(t_all *all_st,int a);
-void	fill_sprite(t_all *all_st);
+//void	fill_sprite(t_all *all_st);
 // void	paint_sprites(t_all *all_st);
 void	ft_cast_rays(t_all *all);
 int		close_window(t_all *all_st);
@@ -115,7 +138,12 @@ int		init_struct(t_all *all_st);
 int		init_sprite(t_all *all_st);
 void	free_all(t_all *all);
 void	sort(t_all *all);
+char 	**main_parcer(char *argv);
 // void sort(t_all *all)
+
+int		check_resolution(char *line,t_all *all);
+int		check_text(char *line,t_all *all,int flag);
+
 
 
 

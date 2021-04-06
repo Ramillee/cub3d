@@ -6,11 +6,21 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 22:01:31 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/03 17:02:53 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/06 12:34:40 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+
+int init_parser(t_all *all_st)
+{
+	t_info *info;
+	info = ft_calloc(1,sizeof(t_info));
+	if (info == NULL)
+		return (-1);
+	else
+		all_st->info_st = info;
+}
 
 int	init_struct(t_all *all_st)
 {
@@ -30,6 +40,7 @@ int	init_struct(t_all *all_st)
 	if ((ray_st = ft_calloc(1,sizeof(t_ray))) == NULL)
 		return (-1);
 	all_st->plr->ray = ray_st;
+	all_st->plr->ray->ray_step = (M_PI / 3) / WIGHT;
 	while (i < 5)
 	{
 		if ((texture[i] = ft_calloc(1,sizeof(t_textures))) == NULL)
@@ -62,9 +73,6 @@ int init_sprite(t_all *all_st)
 			{
 				all_st->sprites[a].x = (i + 0.5) * SCALE;
 				all_st->sprites[a].y = (j + 0.5) * SCALE;
-//				printf("x -- %f\n",all_st->sprites[a].x);
-//				printf("y -- %f\n",all_st->sprites[a].y);
-//				all_st->sprites[a].dir =  0;
 				a++;
 			}
 			i++;
@@ -73,7 +81,6 @@ int init_sprite(t_all *all_st)
 		j++;
 
 	}
-//	printf("%d",count);
-//	all_st->sprites[a] = NULL;
+	all_st->lens = calloc(WIGHT + 1,sizeof(double));
 	return (1);
 }

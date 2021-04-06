@@ -98,7 +98,7 @@ int main(int argc, char **argv)
 	all_st->textures[3]->linc = "./img/wood.xpm";
 	all_st->textures[4]->linc = "./img/bb.xpm";
 	fill_struct(all_st);//может быть тоже
-	if ((all_st->map = parcer("./map/cub3d.cub")) == NULL)//поменять на argv
+	if ((all_st->map = main_parcer("./map/cub3d.cub")) == NULL)//поменять на argv
 	{
 		strerror(24);
 		perror("");

@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:09:30 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/06 03:19:59 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/06 12:57:53 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@ void paint_sprites(t_all *all_st,int a)
 				j++;
 				continue;
 			}
-			// if ()
-			if ((color = my_mlx_pixel_get(all_st,i  * wall,j * wall, 4)) != 0)
-				my_mlx_pixel_put(all_st->win, all_st->sprites[a].h_offset + i,
-				all_st->sprites[a].v_offset  + j ,color);
+			if (all_st->lens[(int)(all_st->sprites[a].h_offset + i)] > all_st->sprites[a].dist)
+				if ((color = my_mlx_pixel_get(all_st,i  * wall,j * wall, 4)) != 0)
+					my_mlx_pixel_put(all_st->win, all_st->sprites[a].h_offset + i,
+					all_st->sprites[a].v_offset  + j ,color);
 			j++;
 		}
+		// printf("%d\n",j);
+		
 		i++;
 	}
 }
