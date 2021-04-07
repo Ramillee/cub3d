@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 22:01:31 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/06 12:34:40 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/07 19:12:24 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int init_parser(t_all *all_st)
 		return (-1);
 	else
 		all_st->info_st = info;
+	return (1);
 }
 
 int	init_struct(t_all *all_st)
@@ -48,7 +49,9 @@ int	init_struct(t_all *all_st)
 		all_st->textures[i] = texture[i];
 		i++;
 	}
+	init_parser(all_st);
 	return (1);
+	// return (1);
 }
 
 int init_sprite(t_all *all_st)

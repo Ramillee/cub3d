@@ -16,6 +16,7 @@ void fill_struct(t_all *all_st)
 {
 	int i = -1;
 	
+	
 	all_st->win->mlx = mlx_init();
 	all_st->win->win = mlx_new_window(all_st->win->mlx,WIGHT,HEIGHT,"Cub3D");
 	all_st->win->img = mlx_new_image(all_st->win->mlx, WIGHT, HEIGHT);
@@ -98,7 +99,7 @@ int main(int argc, char **argv)
 	all_st->textures[3]->linc = "./img/wood.xpm";
 	all_st->textures[4]->linc = "./img/bb.xpm";
 	fill_struct(all_st);//может быть тоже
-	if ((all_st->map = main_parcer("./map/cub3d.cub")) == NULL)//поменять на argv
+	if ((main_parcer("./map/cub3d.cub",all_st)) == 0)//поменять на argv
 	{
 		strerror(24);
 		perror("");

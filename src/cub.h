@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/06 03:40:58 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/07 19:25:03 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include <stdio.h>
 # include <errno.h>
 # define SCALE 64.0
-# define RED 0x00FF0000
-# define FLOOR 0x696969
-# define BLUE 0x000000FF
+//# define RED 0x00FF0000
+//# define FLOOR 0x696969
+//# define BLUE 0x000000FF
 // # define W 13
 // # define S 1
 // # define D 2
@@ -96,15 +96,10 @@ typedef struct s_info
 	char		*ea;
 	char 		*s;
 	int			f;
-	int			fr;
-	int			fg;
-	int			fb;
 	int			c;
-	int			cr;
-	int			cg;
-	int			cb;
-
-
+	int 		r_count;
+	int 		t_count;
+	int 		c_count;
 }				t_info;
 
 typedef struct	s_all
@@ -122,7 +117,7 @@ typedef struct	s_all
 	
 }				  t_all;
 
-char	**parcer(char *argv);
+char	**parcer(int fd);
 void	math_sprite(t_all *all_st,int count);
 int		count_sprite(t_all *all_st);
 void	paint_sprites(t_all *all_st,int a);
@@ -138,11 +133,15 @@ int		init_struct(t_all *all_st);
 int		init_sprite(t_all *all_st);
 void	free_all(t_all *all);
 void	sort(t_all *all);
-char 	**main_parcer(char *argv);
+//char 	**main_parcer(char *argv);
 // void sort(t_all *all)
+int check_info(char *line,t_all *all);
+int	main_parcer(char *argv,t_all *all);
 
 int		check_resolution(char *line,t_all *all);
 int		check_text(char *line,t_all *all,int flag);
+int check_color(char *line,t_all *all,int flag);
+int init_parser(t_all *all_st);
 
 
 

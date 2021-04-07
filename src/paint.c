@@ -55,7 +55,7 @@ void paint_line(t_all *all,int x)
 		j += fabs(sky);
 	else
 		while (y < sky && y < HEIGHT - 1)
-			my_mlx_pixel_put(all->win, x, y++, 0x00FFFF);
+			my_mlx_pixel_put(all->win, x, y++, all->info_st->c);
 	while (y < wall + sky && y < HEIGHT - 1)
 	{
 		if (((int)  all->plr->ray->x == (int) all->plr->ray->old_x) && (int) all->plr->ray->old_y - (int) all->plr->ray->y > 0)
@@ -74,6 +74,6 @@ void paint_line(t_all *all,int x)
 		j++;
 	}
 	while (y < HEIGHT - 1)
-		my_mlx_pixel_put(all->win, x, y++, FLOOR);
+		my_mlx_pixel_put(all->win, x, y++, all->info_st->f);
 	
 }
