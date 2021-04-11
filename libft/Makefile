@@ -6,7 +6,7 @@
 #    By: atweek <atweek@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/29 22:32:18 by atweek            #+#    #+#              #
-#    Updated: 2021/04/07 18:38:24 by atweek           ###   ########.fr        #
+#    Updated: 2021/04/09 06:37:58 by atweek           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = gcc
 
 SO = libft.so
 
-CFLAGS = -Wall -Wextra -Werror -I. -c
+CFLAGS = -Wall -Wextra -Werror -I. -c -g
 
 SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c \
 ft_memchr.c ft_memset.c ft_memcmp.c ft_memccpy.c ft_strlen.c \

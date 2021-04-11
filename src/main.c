@@ -1,50 +1,58 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main3D.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/06 00:44:03 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 07:38:41 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void fill_struct(t_all *all_st)
+void	fill_struct(t_all *all)
 {
-	int i = -1;
-	
-	
-	all_st->win->mlx = mlx_init();
-	all_st->win->win = mlx_new_window(all_st->win->mlx,WIGHT,HEIGHT,"Cub3D");
-	all_st->win->img = mlx_new_image(all_st->win->mlx, WIGHT, HEIGHT);
-    all_st->win->addr = mlx_get_data_addr(all_st->win->img, &all_st->win->bpp, &all_st->win->line_l,
-	&all_st->win->en);
+	int	i;
+
+	i = -1;
+	all->text[0]->linc = all->info->no;
+	all->text[1]->linc = all->info->so;
+	all->text[2]->linc = all->info->we;
+	all->text[3]->linc = all->info->ea;
+	all->text[4]->linc = all->info->s;
+	all->win->mlx = mlx_init();
+	all->win->win = mlx_new_window(all->win->mlx, all->info->w,
+			all->info->h, "Cub3D");
+	all->win->img = mlx_new_image(all->win->mlx, all->info->w,
+			all->info->h);
+	all->win->addr = mlx_get_data_addr(all->win->img, &all->win->bpp,
+			&all->win->line_l, &all->win->en);
 	while (++i < 5)
 	{
-		all_st->textures[i]->img = mlx_xpm_file_to_image(all_st->win->mlx, all_st->textures[i]->linc,
-		&all_st->textures[i]->weight, &all_st->textures[i]->height);
-		all_st->textures[i]->addr = mlx_get_data_addr(all_st->textures[i]->img,
-		&all_st->textures[i]->bpp, &all_st->textures[i]->line_l,
-		&all_st->textures[i]->en);	
+		all->text[i]->img = mlx_xpm_file_to_image(all->win->mlx,
+				all->text[i]->linc, &all->text[i]->weight,
+				&all->text[i]->height);
+		all->text[i]->addr = mlx_get_data_addr(all->text[i]->img,
+				&all->text[i]->bpp, &all->text[i]->line_l,
+				&all->text[i]->en);
 	}
 }
 
-void side_of_the_world(char side, t_all *all_st)
+void	side_of_the_world(char side, t_all *all)
 {
 	if (side == 'N')
-		all_st->plr->dir = M_PI_2 * 3;
+		all->plr->dir = M_PI_2 * 3;
 	if (side == 'E')
-		all_st->plr->dir = 0;
+		all->plr->dir = 0;
 	if (side == 'S')
-		all_st->plr->dir = M_PI_2;
+		all->plr->dir = M_PI_2;
 	if (side == 'W')
-		all_st->plr->dir = M_PI;
+		all->plr->dir = M_PI;
 }
 
-void find_player(t_plr *pl_st,float x ,float y)
+void	find_player(t_plr *pl_st, float x, float y)
 {
 	pl_st->x = x + (SCALE / 2);
 	pl_st->y = y + (SCALE / 2);
@@ -53,70 +61,80 @@ void find_player(t_plr *pl_st,float x ,float y)
 	pl_st->end = 0;
 }
 
-void  check_map(t_all *all_st)
+void	check_map(t_all *all)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
+	int	count_plr;
 
 	i = 0;
 	j = 0;
-	
-	while (all_st->map[j])
+	count_plr = 0;
+	while (all->map[j])
 	{
-		while (all_st->map[j][i])
+		while (all->map[j][i])
 		{
-			if ((all_st->map[j][i]  == 'N') || (all_st->map[j][i]  == 'S')
-					 || (all_st->map[j][i]  == 'E') || (all_st->map[j][i]  == 'W'))
+			if ((all->map[j][i] == 'N') || (all->map[j][i] == 'S')
+					 || (all->map[j][i] == 'E') || (all->map[j][i] == 'W'))
 			{
-				find_player(all_st->plr, i * SCALE , j * SCALE);//
-				side_of_the_world(all_st->map[j][i], all_st);
+				find_player(all->plr, i * SCALE, j * SCALE);
+				side_of_the_world(all->map[j][i], all);
+				count_plr++;
 			}
 			i++;
 		}
 		j++;
 		i = 0;
 	}
-	
+	if (count_plr > 1 || count_plr == 0)
+		error(all, "problems with the player");
 }
 
-
-int main(int argc, char **argv)
-{	
-	(void) argc;	
-	(void) argv;//поменять
-	t_all 		*all_st;
-
-	all_st = ft_calloc(1, sizeof(t_all));
-
-	if ((init_struct(all_st) == -1))
-		exit(0);//free memory
-	int i;
-	// printf("\n----->%lu\n",sizeof(t_win));
-	i = 0;
-	all_st->textures[0]->linc = "./img/colorstone.xpm";//переместить в парсер
-	all_st->textures[1]->linc = "./img/redbrick.xpm";
-	all_st->textures[2]->linc = "./img/greystone.xpm";
-	all_st->textures[3]->linc = "./img/wood.xpm";
-	all_st->textures[4]->linc = "./img/bb.xpm";
-	fill_struct(all_st);//может быть тоже
-	if ((main_parcer("./map/cub3d.cub",all_st)) == 0)//поменять на argv
+int	check_argc(int argc, t_all *all, char **argv)
+{
+	if (argc < 2)
 	{
-		strerror(24);
-		perror("");
+		printf("map not found\n");
 		exit(0);
 	}
-	// all_st.map = map;
-	// paint_map(&pl_st,&mlx_st,map, &all_st);
-	check_map(all_st);
-	all_st->count_sprite = count_sprite(all_st);
-//	printf("---> %d\n",all_st->count_sprite);
-	if (init_sprite(all_st) == -1)
-		exit(0);//free memory							
-	ft_cast_rays(all_st);
-	// mlx_do_sync(all_st->win->mlx);
-	mlx_put_image_to_window(all_st->win->mlx, all_st->win->win, all_st->win->img, 0, 0);
-	// mlx_hook(all_st.win->win, 17, 0L, 4&close_window, &all_st);
-	mlx_hook(all_st->win->win,  2, 1L<<0, &hook, all_st);
-	mlx_loop(all_st->win->mlx);
+	else if (argc > 3)
+	{
+		printf("many arguments\n");
+		exit(0);
+	}
+	else if (argc == 2)
+		return (1);
+	if (argc == 3 && ft_strncmp(argv[2], "--save", ft_strlen(argv[2])) == 0)
+		screenshot(all);
+	else if (argc == 3
+		&& ft_strncmp(argv[2], "--save", ft_strlen(argv[2])) != 0)
+	{
+		printf("bad argument\n");
+		exit(0);
+	}
+	return (1);
+}
+
+int	main(int argc, char **argv)
+{	
+	t_all	*all;
+	int		i;
+
+	all = ft_calloc(1, sizeof(t_all));
+	init_parser(all, argv[1]);
+	if ((init_struct(all) == -1))
+		exit(0);
+	i = 0;
+	fill_struct(all);
+	check_map(all);
+	valid_map(all);
+	all->count_sprite = count_sprite(all);
+	if (init_sprite(all) == -1)
+		exit(0);
+	ft_cast_rays(all);
+	mlx_put_image_to_window(all->win->mlx, all->win->win, all->win->img, 0, 0);
+	check_argc(argc, all, argv);
+	mlx_hook(all->win->win, 2, 1L << 0, &hook, all);
+	mlx_loop(all->win->mlx);
 	return (0);
 }

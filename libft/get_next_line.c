@@ -6,12 +6,12 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 17:35:02 by atweek            #+#    #+#             */
-/*   Updated: 2021/03/07 19:58:12 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/09 01:57:08 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#define BUFFER_SIZE 30
+#define BUFFER_SIZE 100
 
 static int	clean_before_out(char *s1, char *s2, int ret)
 {

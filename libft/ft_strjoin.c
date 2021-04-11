@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:54:05 by ramil             #+#    #+#             */
-/*   Updated: 2020/11/11 17:24:50 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/08 21:30:52 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		while (s2[j] != '\0')
 			dst[i++] = s2[j++];
 		dst[i] = '\0';
+		free((void *)s1);
 		return (dst);
 	}
 	else
