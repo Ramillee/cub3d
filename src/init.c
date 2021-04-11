@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 22:01:31 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/11 03:01:52 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 12:08:52 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	init_parser(t_all *all_st, char *argv)
 	info = ft_calloc(1, sizeof(t_info));
 	if (info == NULL)
 		error(all_st, "malloc error");
-	all_st->info_st = info;
+	all_st->info = info;
 	if (ft_strncmp(&argv[i], ".cub", 5))
 		error(all_st, "incorrect map format");
 	if ((main_parcer(argv, all_st)) == 0)
@@ -71,7 +71,7 @@ int	init_struct(t_all *all_st)
 	if ((castom_calloc((void **)&ray_st, 1, sizeof(t_ray))) == NULL)
 		return (-1);
 	all_st->plr->ray = ray_st;
-	all_st->plr->ray->ray_step = (M_PI / 3) / all_st->info_st->width;
+	all_st->plr->ray->ray_step = (M_PI / 3) / all_st->info->w;
 	if (in_text(all_st) == -1)
 		return (-1);
 	return (1);
@@ -102,6 +102,6 @@ int	init_sprite(t_all *all)
 		i = 0;
 		j++;
 	}
-	all->lens = calloc(all->info_st->width + 1, sizeof(double));
+	all->lens = calloc(all->info->w + 1, sizeof(double));
 	return (1);
 }

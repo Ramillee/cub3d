@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/10 15:18:54 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/11 00:36:03 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 12:10:59 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void        take_line(t_all *all)
     int     x;
     int     y;
     line = -1;
-    while (++line < all->info_st->height)
+    while (++line < all->info->h)
     {
         x = 0;
         y = all->win->line_l;
@@ -52,14 +52,14 @@ void		name_file(t_all *all, int fd)
     size = 40;
     n = 1;
     write(fd, &size, 4);
-    write(fd, &all->info_st->width, 4);
-    write(fd, &all->info_st->height, 4);
+    write(fd, &all->info->w, 4);
+    write(fd, &all->info->h, 4);
     write(fd, &n, 2);
     write(fd, &all->win->bpp, 2);
     write(fd, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 28);
     // write(1, &size, 4);
-    // write(1, &all->info_st->width, 4);
-    // write(1, &all->info_st->height, 4);
+    // write(1, &all->info->width, 4);
+    // write(1, &all->info->height, 4);
     // write(1, &n, 2);
     // write(1, &all->win->bpp, 2);
     // write(1, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 28);
@@ -76,7 +76,7 @@ void        screenshot(t_all *all)
 		printf("eee");
         exit(1);
     }
-	size = 14 + 40 + all->info_st->width * all->info_st->height * 4;
+	size = 14 + 40 + all->info->w * all->info->h * 4;
 	i = 14 + 40;
 	write(fd, "BM", 2);
 	write(fd, &size, 4);
@@ -88,7 +88,7 @@ void        screenshot(t_all *all)
 	// write(1, &i, 4);
 	name_file(all, fd);
 	take_line(all);
-	a = all->info_st->width * all->info_st->height;
+	a = all->info->w * all->info->h;
 	while (--a >= 0)
     {
 		write(fd, &all->win->addr[a * all->win->bpp / 8], 4);

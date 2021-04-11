@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 11:10:55 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/11 03:02:19 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 12:09:46 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	free2(t_all *all)
 {
-	if (all->info_st != NULL)
-		free(all->info_st);
+	if (all->info != NULL)
+		free(all->info);
 	free(all);
 	all = NULL;
 	exit(0);

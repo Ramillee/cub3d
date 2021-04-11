@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:32:02 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/09 07:49:15 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 12:08:29 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@ int check_info(char *line,t_all *all)
 	// text_count = 0;
 	// color_count = 0;
 	if (*line == 'R' && *(line + 1) == ' ')
-		all->info_st->count = check_resolution(line,all);
+		all->info->count = check_resolution(line,all);
 	else if (*line == 'N' && *(line + 1) == 'O' && *(line + 2) == ' ')
-		all->info_st->count += check_text(line,all,0);
+		all->info->count += check_text(line,all,0);
 	else if (*line == 'S' && *(line + 1) == 'O' && *(line + 2) == ' ')
-		all->info_st->count += check_text(line,all,1);
+		all->info->count += check_text(line,all,1);
 	else if (*line == 'W' && *(line + 1) == 'E' && *(line + 2) == ' ')
-		all->info_st->count += check_text(line,all,2);
+		all->info->count += check_text(line,all,2);
 	else if (*line == 'E' && *(line + 1) == 'A' && *(line + 2) == ' ')
-		all->info_st->count += check_text(line,all,3);
+		all->info->count += check_text(line,all,3);
 	else if (*line == 'S' && *(line + 1) == ' ')
-		all->info_st->count += check_text(line,all,4);
+		all->info->count += check_text(line,all,4);
 	else if (*line == 'F' && *(line + 1) == ' ')
-		all->info_st->count += check_color(line,all,0);
+		all->info->count += check_color(line,all,0);
 	else if (*line == 'C' && *(line + 1) == ' ')
-		all->info_st->count += check_color(line,all,1);
-	if (all->info_st->count == 8)
+		all->info->count += check_color(line,all,1);
+	if (all->info->count == 8)
 		return (1);
 	else
 		return (0);
@@ -69,9 +69,9 @@ int	main_parcer(char *argv,t_all *all)
 	}
 	all->map = parcer(fd,all);
 	close(fd);
-	// if (all->info_st->count > 8)
+	// if (all->info->count > 8)
 	// 	error(all,"extra information");
-	if (all->info_st->count < 8)
+	if (all->info->count < 8)
 		error(all,"not enough information");
 	return (1);
 }
