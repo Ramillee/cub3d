@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/11 04:27:11 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 16:36:32 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define LEFT 123
 # define RIGHT 124
 # define ESC 53
-# define STEP 5
+# define STEP 20
 
 typedef struct s_win
 {
@@ -39,6 +39,16 @@ typedef struct s_win
 	int			bpp;
 	int			en;
 }				t_win;
+
+typedef struct	s_painter
+{
+
+	double		wall;
+	double		sky;
+	double		hitx;
+	double		hity;
+	int			color;
+}				t_painter;
 
 typedef struct s_ray
 {

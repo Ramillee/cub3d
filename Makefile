@@ -6,7 +6,7 @@
 #    By: atweek <atweek@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/28 15:37:47 by atweek            #+#    #+#              #
-#    Updated: 2021/04/11 08:09:15 by atweek           ###   ########.fr        #
+#    Updated: 2021/04/11 16:09:47 by atweek           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC = src/main.c src/parcer.c src/paint_sprite.c src/hook.c src/paint.c src/rays
 
 SRCO = $(SRC:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror -g -Os -ffast-math
+FLAGS = -Wall -Wextra -Werror -g #-Os -ffast-math
 
 # MAC_BUTTONS = -D W=13 -D S=1 -D D=2 -D A=0 -D LEFT=123 -D RIGHT=124 -D ESC=53
 

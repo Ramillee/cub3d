@@ -6,19 +6,27 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 17:09:30 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/11 08:08:29 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 16:42:52 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
+void	paint_pxl(t_all *all, int i, int j, int a)
+{
+	float	w;
+
+	w = ((float) all->text[4]->height / all->sp[a].screen_size);
+	if ((pixel_get(all, i * w, j * w, 4)) != 0)
+		my_mlx_pixel_put(all, all->sp[a].h + i,
+			all->sp[a].v + j, pixel_get(all, i * w, j * w, 4));
+}
+
 void	paint_sp(t_all *all, int a)
 {
 	int		i;
 	int		j;
-	float	w;
 
-	w = ((float) all->text[4]->height / all->sp[a].screen_size);
 	i = 0;
 	while (i < all->sp[a].screen_size)
 	{
@@ -36,9 +44,7 @@ void	paint_sp(t_all *all, int a)
 				continue ;
 			}
 			if (all->lens[(int)(all->sp[a].h + i)] > all->sp[a].dist)
-				if ((pixel_get(all, i * w, j * w, 4)) != 0)
-					my_mlx_pixel_put(all, all->sp[a].h + i,
-						all->sp[a].v + j, pixel_get(all, i * w, j * w, 4));
+				paint_pxl(all, i, j, a);
 			j++;
 		}
 		i++;
