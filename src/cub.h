@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:33:13 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/11 16:36:32 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 19:45:55 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,22 @@ typedef struct s_win
 	int			bpp;
 	int			en;
 }				t_win;
-
-typedef struct	s_painter
+typedef struct s_prc
 {
-
+	char	*line;
+	char	*temp_str;
+	char	**map;
+	int		i;
+}			t_prc;
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+	int	i;
+}				t_color;
+typedef struct s_painter
+{
 	double		wall;
 	double		sky;
 	double		hitx;
@@ -140,6 +152,8 @@ int		check_text(char *line, t_all *all, int flag);
 int		check_color(char *line, t_all *all, int flag);
 void	error(t_all *all, char *error);
 void	*castom_calloc(void **ptr, size_t count, size_t size);
-void    screenshot(t_all *all);
+void	screenshot(t_all *all);
+void	side_of_the_world(char side, t_all *all);
+int		check_flag(int flag);
 
 #endif

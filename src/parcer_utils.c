@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 03:13:51 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/11 12:56:31 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 19:44:08 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,87 +50,68 @@ int	check_text(char *line, t_all *all, int flag)
 	int	j;
 	int	fd;
 
-	if (flag == 4)
-		i = 1;
-	else
-		i = 2;
+	i = check_flag(flag);
 	while (ft_isspace(line[i]))
 		i++;
 	j = i - 1;
 	fd = open(&line[i], O_RDONLY);
 	if (fd == -1)
 		error (all, strerror(2));
-	else
-		close(fd);
-	if (flag == 0)
-	{
-		if (all->info->no != NULL)
-			error(all, "extra information");
+	if (flag == 0 && all->info->no == NULL)
 		all->info->no = ft_strdup(&line[i]);
-	}
-	else if (flag == 1)
-	{
-		if (all->info->so != NULL)
-			error(all, "extra information");
+	else if (flag == 1 && all->info->so == NULL)
 		all->info->so = ft_strdup(&line[i]);
-	}
-	else if (flag == 2)
-	{
-		if (all->info->we != NULL)
-			error(all, "extra information");
+	else if (flag == 2 && all->info->we == NULL)
 		all->info->we = ft_strdup(&line[i]);
-	}
-	else if (flag == 3)
-	{
-		if (all->info->ea != NULL)
-			error(all, "extra information");
+	else if (flag == 3 && all->info->ea == NULL)
 		all->info->ea = ft_strdup(&line[i]);
-	}
-	else if (flag == 4)
-	{
-		if (all->info->s != NULL)
-			error(all, "extra information");
+	else if (flag == 4 && all->info->s == NULL)
 		all->info->s = ft_strdup(&line[i]);
-	}
+	else
+		error(all, "extra information");
+	close(fd);
 	return (1);
+}
+
+void	check_color2(char *line, t_all *all, int flag, t_color *clr)
+{
+	if (line[clr->i] == ',')
+		clr->i++;
+	else
+		error(all, "wrong color");
+	while (ft_isspace(line[clr->i]) || line[clr->i] == ',')
+		clr->i++;
+	clr->b = ft_atoi(&line[clr->i]);
+	while (ft_isdigit((int)line[clr->i]))
+		clr->i++;
+	if ((clr->r > 255 || clr->r < 0) || (clr->g > 255 || clr->g < 0)
+		|| (clr->b > 255 || clr->b < 0))
+		error (all, "wrong color");
+	if (flag == 0)
+		all->info->f = create_trgb(0, clr->r, clr->g, clr->b);
+	else
+		all->info->c = create_trgb(0, clr->r, clr->g, clr->b);
 }
 
 int	check_color(char *line, t_all *all, int flag)
 {
-	int	r;
-	int	g;
-	int	b;
-	int	i;
+	t_color	clr;
 
-	i = 1;
-	while (ft_isspace(line[i]) || line[i] == ',')
-		i++;
-	r = ft_atoi(&line[i]);
-	while (ft_isdigit((int)line[i]))
-		i++;
-	if (line[i] == ',')
-		i++;
+	clr.i = 1;
+	while (ft_isspace(line[clr.i]) || line[clr.i] == ',')
+		clr.i++;
+	clr.r = ft_atoi(&line[clr.i]);
+	while (ft_isdigit((int)line[clr.i]))
+		clr.i++;
+	if (line[clr.i] == ',')
+		clr.i++;
 	else
 		error(all, "wrong color");
-	while (ft_isspace(line[i]))
-		i++;
-	g = ft_atoi(&line[i]);
-	while (ft_isdigit((int)line[i]))
-		i++;
-	if (line[i] == ',')
-		i++;
-	else
-		error(all, "wrong color");
-	while (ft_isspace(line[i]) || line[i] == ',')
-		i++;
-	b = ft_atoi(&line[i]);
-	while (ft_isdigit((int)line[i]))
-		i++;
-	if ((r > 255 || r < 0) || (g > 255 || g < 0) || (b > 255 || b < 0))
-		error (all, "wrong color");
-	if (flag == 0)
-		all->info->f = create_trgb(0, r, g, b);
-	else
-		all->info->c = create_trgb(0, r, g, b);
+	while (ft_isspace(line[clr.i]))
+		clr.i++;
+	clr.g = ft_atoi(&line[clr.i]);
+	while (ft_isdigit((int)line[clr.i]))
+		clr.i++;
+	check_color2(line, all, flag, &clr);
 	return (1);
 }

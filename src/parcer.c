@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 17:32:02 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/11 14:24:29 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 19:42:11 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,57 +65,68 @@ int	main_parcer(char *argv, t_all *all)
 	return (1);
 }
 
-char	**parcer(int fd, t_all *all)
+void	pars_start(t_prc *prc, t_all *all, int fd)
 {
-	char	*line;
-	char	*temp_str;
-	char	**map;
-	int		i;
-
-	i = 0;
-	while (get_next_line(fd, &line) == 1)
+	prc->i = 0;
+	while (get_next_line(fd, &prc->line) == 1)
 	{
-		if (*line)
+		if (*prc->line)
 		{
-			temp_str = ft_strjoin(line, "1%");
-			while (line[i])
+			prc->temp_str = ft_strjoin(prc->line, "1%1");
+			while (prc->line[prc->i])
 			{
-				if (line[i] == '1' || line[i] == ' ' || line[i] == '\0')
-					i++;
+				if (prc->line[prc->i] == '1' || prc->line[prc->i] == ' '
+					|| prc->line[prc->i] == '\0')
+					prc->i++;
 				else
 					error(all, "wrong wall");
 			}
 			break ;
-			free (line);
+			free (prc->line);
 		}
-		free (line);
+		free (prc->line);
 	}
-	i = 0;
-	while (get_next_line(fd, &line) == 1)
+	prc->i = 0;
+}
+
+void	pars_end(t_prc	*prc, t_all *all)
+{
+	while (prc->line[prc->i])
 	{
-		if (ft_strchr(line, '0') != NULL)
-			if (*((ft_strchr(line, '0')) - 1) != '1'
-				|| *((ft_strrchr(line, '0')) + 1) != '1')
-				error(all, "wrong wall");
-		if (!(*line))
-			error(all, "gap on the map");
-		temp_str = ft_strjoin(temp_str, line);
-		temp_str = ft_strjoin(temp_str, "1%");
-		if (temp_str == NULL)
-			return (NULL);
-		free(line);
-		line = NULL;
-	}
-	free(line);
-	while (line[i])
-	{
-		if (line[i] == '1' || line[i] == ' ' || line[i] == '\0')
-			i++;
+		if (prc->line[prc->i] == '1' || prc->line[prc->i]
+			== ' ' || prc->line[prc->i] == '\0')
+			prc->i++;
 		else
 			error(all, "wrong wall");
 	}
-	temp_str = ft_strjoin(temp_str, line);
-	map = ft_split(temp_str, '%');
-	free(temp_str);
-	return (map);
+	prc->temp_str = ft_strjoin(prc->temp_str, prc->line);
+	prc->map = ft_split(prc->temp_str, '%');
+	free(prc->temp_str);
+}
+
+char	**parcer(int fd, t_all *all)
+{
+	t_prc	prc;
+
+	pars_start(&prc, all, fd);
+	while (get_next_line(fd, &prc.line) == 1)
+	{
+		if (ft_strchr(prc.line, '0') != NULL)
+			if (*((ft_strchr(prc.line, '0')) - 1) != '1'
+				|| *((ft_strrchr(prc.line, '0')) + 1) != '1')
+				error(all, "wrong wall");
+		if (!(*prc.line))
+			error(all, "gap on the map");
+		prc.temp_str = ft_strjoin(prc.temp_str, prc.line);
+		if (prc.temp_str == NULL)
+			return (NULL);
+		prc.temp_str = ft_strjoin(prc.temp_str, "1%1");
+		if (prc.temp_str == NULL)
+			return (NULL);
+		free(prc.line);
+		prc.line = NULL;
+	}
+	free(prc.line);
+	pars_end(&prc, all);
+	return (prc.map);
 }

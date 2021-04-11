@@ -6,7 +6,7 @@
 /*   By: atweek <atweek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 20:42:58 by atweek            #+#    #+#             */
-/*   Updated: 2021/04/11 07:38:41 by atweek           ###   ########.fr       */
+/*   Updated: 2021/04/11 19:43:02 by atweek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,6 @@ void	fill_struct(t_all *all)
 				&all->text[i]->bpp, &all->text[i]->line_l,
 				&all->text[i]->en);
 	}
-}
-
-void	side_of_the_world(char side, t_all *all)
-{
-	if (side == 'N')
-		all->plr->dir = M_PI_2 * 3;
-	if (side == 'E')
-		all->plr->dir = 0;
-	if (side == 'S')
-		all->plr->dir = M_PI_2;
-	if (side == 'W')
-		all->plr->dir = M_PI;
 }
 
 void	find_player(t_plr *pl_st, float x, float y)
